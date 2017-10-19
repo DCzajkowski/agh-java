@@ -110,6 +110,54 @@ public class Matrix {
         return result;
     }
 
+    Matrix add(double value) {
+        Matrix result = new Matrix(this.rows, this.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(i, j, this.get(i, j) + value);
+            }
+        }
+
+        return result;
+    }
+
+    Matrix sub(double value) {
+        Matrix result = new Matrix(this.rows, this.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(i, j, this.get(i, j) - value);
+            }
+        }
+
+        return result;
+    }
+
+    Matrix mul(double value) {
+        Matrix result = new Matrix(this.rows, this.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(i, j, this.get(i, j) * value);
+            }
+        }
+
+        return result;
+    }
+
+    Matrix div(double value) {
+        Matrix result = new Matrix(this.rows, this.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(i, j, this.get(i, j) / value);
+            }
+        }
+
+        return result;
+    }
+
     public double[][] asArray() {
         double[][] result = new double[this.rows][this.cols];
 
