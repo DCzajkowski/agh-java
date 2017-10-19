@@ -17,7 +17,7 @@ public class Matrix {
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
-                this.data[i * this.cols + j] = filled[i][j];
+                this.set(i, j, filled[i][j]);
             }
         }
     }
@@ -56,12 +56,39 @@ public class Matrix {
         return rowLength;
     }
 
+    public void reshape(int rows, int cols) {
+        if (this.rows * this.cols != rows * cols) {
+            throw new RuntimeException(
+                String.format("%d x %d matrix can't be reshaped to %d x %d", this.rows, this.cols, rows, cols)
+            );
+        }
+
+        this.rows = rows;
+        this.cols = cols;
+    }
+
+    public int[] shape() {
+        return new int[] { this.rows, this.cols };
+    }
+
+    public Matrix add(Matrix matrix) {
+        Matrix result = new Matrix(this.rows, this.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(i, j, this.get(i, j) + matrix.get(i, j));
+            }
+        }
+
+        return result;
+    }
+
     public double[][] asArray() {
         double[][] result = new double[this.rows][this.cols];
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
-                result[i][j] = this.data[i * this.cols + j];
+                result[i][j] = this.get(i, j);
             }
         }
 
@@ -69,24 +96,22 @@ public class Matrix {
     }
 
     public double get(int r, int c) {
-        return this.data[(r * this.cols) + c];
+        return this.data[r * this.cols + c];
     }
 
     public void set(int r, int c, double value) {
-        this.data[(r * this.cols) + c] = value;
+        this.data[r * this.cols + c] = value;
     }
 
     public String toString() {
         StringBuilder result = new StringBuilder();
-
-        double[][] matrix = this.asArray();
 
         result.append("[");
 
         for (int i = 0; i < this.rows; i++) {
             result.append("[");
             for (int j = 0; j < this.cols; j++) {
-                result.append(matrix[i][j]).append(", ");
+                result.append(this.get(i, j)).append(", ");
             }
             result.delete(result.length() - 2, result.length());
             result.append("], ");
