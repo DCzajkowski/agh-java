@@ -68,7 +68,7 @@ public class Matrix {
     }
 
     public int[] shape() {
-        return new int[] { this.rows, this.cols };
+        return new int[]{this.rows, this.cols};
     }
 
     public Matrix add(Matrix matrix) {
@@ -77,6 +77,33 @@ public class Matrix {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 result.set(i, j, this.get(i, j) + matrix.get(i, j));
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix sub(Matrix matrix) {
+        Matrix result = new Matrix(this.rows, this.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(i, j, this.get(i, j) - matrix.get(i, j));
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix mul(Matrix matrix) {
+        Matrix result = new Matrix(this.rows, matrix.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < matrix.cols; j++) {
+                result.set(i, j, 0);
+                for (int k = 0; k < matrix.rows; k++) {
+                    result.set(i, j, result.get(i, j) + this.get(i, k) * matrix.get(k, j));
+                }
             }
         }
 
