@@ -12,27 +12,36 @@ public class Matrix {
     }
 
     public Matrix(double[][] data) {
-        this.rows = data.length;
+        this.setMatrixDetails(data);
+        double[][] filled = this.prepare(data);
 
-        int rowLength = rowLength(data);
-
-        this.cols = rowLength;
-        this.data = new double[this.rows * this.cols];
-
-        int k = 0;
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
-                this.data[k] = data[i][j];
-                k += 1;
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                this.data[i * this.cols + j] = filled[i][j];
             }
+        }
+    }
 
-            if (data[i].length < this.cols) {
-                for (int j = 0; j < rowLength - data[i].length; j++) {
-                    this.data[k] = 0;
-                    k += 1;
+    private void setMatrixDetails(double[][] data) {
+        this.rows = data.length;
+        this.cols = this.rowLength(data);
+        this.data = new double[this.rows * this.cols];
+    }
+
+    private double[][] prepare(double[][] data) {
+        double[][] newData = new double[this.rows][this.cols];
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                try {
+                    newData[i][j] = data[i][j];
+                } catch (IndexOutOfBoundsException e) {
+                    newData[i][j] = 0;
                 }
             }
         }
+
+        return newData;
     }
 
     private int rowLength(double[][] data) {
