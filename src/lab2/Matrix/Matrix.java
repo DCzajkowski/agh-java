@@ -14,13 +14,7 @@ public class Matrix {
     public Matrix(double[][] data) {
         this.rows = data.length;
 
-        int rowLength = 0;
-
-        for (double[] row : data) {
-            if (row.length > rowLength) {
-                rowLength = row.length;
-            }
-        }
+        int rowLength = rowLength(data);
 
         this.cols = rowLength;
         this.data = new double[this.rows * this.cols];
@@ -39,6 +33,18 @@ public class Matrix {
                 }
             }
         }
+    }
+
+    private int rowLength(double[][] data) {
+        int rowLength = 0;
+
+        for (double[] row : data) {
+            if (row.length > rowLength) {
+                rowLength = row.length;
+            }
+        }
+
+        return rowLength;
     }
 
     public double[][] asArray() {
