@@ -96,6 +96,30 @@ public class Matrix {
     }
 
     public Matrix mul(Matrix matrix) {
+        Matrix result = new Matrix(this.rows, this.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(i, j, this.get(i, j) * matrix.get(i, j));
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix div(Matrix matrix) {
+        Matrix result = new Matrix(this.rows, this.cols);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(i, j, this.get(i, j) / matrix.get(i, j));
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix dot(Matrix matrix) {
         Matrix result = new Matrix(this.rows, matrix.cols);
 
         for (int i = 0; i < this.rows; i++) {
@@ -110,7 +134,7 @@ public class Matrix {
         return result;
     }
 
-    Matrix add(double value) {
+    public Matrix add(double value) {
         Matrix result = new Matrix(this.rows, this.cols);
 
         for (int i = 0; i < this.rows; i++) {
@@ -122,7 +146,7 @@ public class Matrix {
         return result;
     }
 
-    Matrix sub(double value) {
+    public Matrix sub(double value) {
         Matrix result = new Matrix(this.rows, this.cols);
 
         for (int i = 0; i < this.rows; i++) {
@@ -134,7 +158,7 @@ public class Matrix {
         return result;
     }
 
-    Matrix mul(double value) {
+    public Matrix mul(double value) {
         Matrix result = new Matrix(this.rows, this.cols);
 
         for (int i = 0; i < this.rows; i++) {
@@ -146,12 +170,24 @@ public class Matrix {
         return result;
     }
 
-    Matrix div(double value) {
+    public Matrix div(double value) {
         Matrix result = new Matrix(this.rows, this.cols);
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 result.set(i, j, this.get(i, j) / value);
+            }
+        }
+
+        return result;
+    }
+
+    public double frobenius() {
+        double result = 0;
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result += Math.pow(this.get(i, j), 2);
             }
         }
 
