@@ -25,5 +25,7 @@ public class Main {
         System.out.println(matrix1.add(matrix2).toString());
         System.out.println(matrix1.sub(matrix2).toString());
         System.out.println(matrix1.mul(matrix2).toString());
+        System.out.println(matrix1.div(matrix2).toString());
+        System.out.println(matrix1.dot(matrix2).toString());
     }
 }
