@@ -1,6 +1,8 @@
 package lab2.Matrix;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MatrixTest {
@@ -43,6 +45,13 @@ class MatrixTest {
         assertEquals(3, matrix1.asArray().length);
         matrix1.reshape(4, 3);
         assertEquals(4, matrix1.asArray().length);
+    }
+
+    @Test
+    void test_reshape_throws_exception_for_invalid_parameters() {
+        Executable closureContainingCodeToTest = () -> matrix1.reshape(4, 4);
+
+        assertThrows(RuntimeException.class, closureContainingCodeToTest, "Exception was expected to be thrown for illegal argument values.");
     }
 
     @Test
