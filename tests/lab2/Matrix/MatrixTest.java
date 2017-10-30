@@ -1,11 +1,9 @@
 package lab2.Matrix;
 
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class MatrixTest extends TestCase {
+class MatrixTest {
     private Matrix matrix1 = new Matrix(new double[][]{
         {1, 2, 3, 4},
         {5, 6, 7, 8},
