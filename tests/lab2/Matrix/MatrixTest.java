@@ -49,9 +49,9 @@ class MatrixTest {
 
     @Test
     void test_reshape_throws_exception_for_invalid_parameters() {
-        Executable closureContainingCodeToTest = () -> matrix1.reshape(4, 4);
+        Executable matrixReshape = () -> matrix1.reshape(4, 4);
 
-        assertThrows(RuntimeException.class, closureContainingCodeToTest, "Exception was expected to be thrown for illegal argument values.");
+        assertThrows(RuntimeException.class, matrixReshape, "Exception was expected to be thrown for illegal argument values.");
     }
 
     @Test
