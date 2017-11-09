@@ -115,6 +115,19 @@ class MatrixTest {
     }
 
     @Test
+    void test_transposition() {
+        assertArrayEquals(
+            new double[][]{{1, 4, 7}, {2, 5, 8}, {3, 6, 9}},
+            new Matrix(new double[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}).getTransposition().asArray()
+        );
+
+        assertArrayEquals(
+            new double[][]{{1, 3, 5}, {2, 4, 6}},
+            new Matrix(new double[][]{{1, 2}, {3, 4}, {5, 6}}).getTransposition().asArray()
+        );
+    }
+
+    @Test
     void test_dot() {
         assertArrayEquals(
             new double[][]{{110.0, 116.0, 122.0, 128.0}, {314.0, 332.0, 350.0, 368.0}, {518.0, 548.0, 578.0, 608.0}},
