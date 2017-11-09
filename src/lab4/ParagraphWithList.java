@@ -1,10 +1,13 @@
 package lab4;
 
+import java.io.PrintStream;
+
 public class ParagraphWithList extends Paragraph {
-    protected HtmlList items;
+    protected HtmlList list;
 
     public ParagraphWithList() {
         super();
+        this.list = new UnorderedList();
     }
 
     public ParagraphWithList(String content) {
@@ -12,11 +15,11 @@ public class ParagraphWithList extends Paragraph {
     }
 
     public void addItemToList(ListItem item) {
-        this.items.addItem(item);
+        this.list.addItem(item);
     }
 
     public ParagraphWithList addListItem(String content) {
-        this.items.addItem(new ListItem(content));
+        this.list.addItem(new ListItem(content));
         return this;
     }
 
@@ -25,7 +28,7 @@ public class ParagraphWithList extends Paragraph {
         return this;
     }
 
-    public void writeHTML() {
-        //
+    public void writeHTML(PrintStream out) {
+        this.list.writeHTML(out);
     }
 }

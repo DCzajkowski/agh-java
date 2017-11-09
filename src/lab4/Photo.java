@@ -1,5 +1,7 @@
 package lab4;
 
+import java.io.PrintStream;
+
 public class Photo {
     protected String url;
 
@@ -7,7 +9,7 @@ public class Photo {
         this.url = url;
     }
 
-    void writeHTML() {
-        //
+    void writeHTML(PrintStream out) {
+        out.printf("<img src=\"%s\">", this.url);
     }
 }

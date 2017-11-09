@@ -1,10 +1,12 @@
 package lab4;
 
+import java.io.PrintStream;
+
 public class Paragraph {
     protected String content;
 
     public Paragraph() {
-        this.setContent("");
+         this.setContent("");
     }
 
     public Paragraph(String content) {
@@ -16,7 +18,7 @@ public class Paragraph {
         return this;
     }
 
-    void writeHTML() {
-        //
+    public void writeHTML(PrintStream out) {
+        out.printf("<p>%s</p>", this.content);
     }
 }

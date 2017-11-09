@@ -1,5 +1,7 @@
 package lab4;
 
+import java.io.PrintStream;
+
 public class ListItem {
     protected String content;
 
@@ -7,7 +9,7 @@ public class ListItem {
         this.content = content;
     }
 
-    public void writeHTML() {
-        //
+    public void writeHTML(PrintStream out) {
+        out.printf("<li>%s</li>", this.content);
     }
 }

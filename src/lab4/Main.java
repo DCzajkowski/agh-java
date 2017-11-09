@@ -17,6 +17,6 @@ public class Main {
                     .addListItem("Java")
             );
 
-        cv.writeHTML();
+        cv.writeHTML(System.out);
     }
 }
