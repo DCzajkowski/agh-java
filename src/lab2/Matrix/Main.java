@@ -27,5 +27,9 @@ public class Main {
         System.out.println(matrix1.mul(matrix2).toString());
         System.out.println(matrix1.div(matrix2).toString());
         System.out.println(matrix1.dot(matrix2).toString());
+
+        Matrix m = new Matrix(new double[][]{{1,2,3},{4,5,6},{7,8,9}});
+        Matrix mT = m.getTransposition();
+        System.out.println(mT.toString());
     }
 }

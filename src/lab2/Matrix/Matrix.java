@@ -182,6 +182,18 @@ public class Matrix {
         return result;
     }
 
+    public Matrix getTransposition() {
+        Matrix result = new Matrix(this.cols, this.rows);
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.set(j, i, this.get(i, j));
+            }
+        }
+
+        return result;
+    }
+
     public double frobenius() {
         double result = 0;
 
