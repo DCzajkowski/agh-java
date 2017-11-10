@@ -1,5 +1,9 @@
 package lab4;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+
 public class Main {
     public static void main(String[] args) {
         Document cv = new Document("Jan Kowalski - CV");
@@ -20,6 +24,14 @@ public class Main {
                     .addListItem("Java")
             );
 
+        // Write to file
+        try {
+            cv.writeHTML(new PrintStream("cv.html", "UTF-8"));
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // As well as to the console
         cv.writeHTML(System.out);
     }
 }
