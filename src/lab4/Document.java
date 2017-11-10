@@ -28,15 +28,53 @@ public class Document {
     }
 
     public void writeHTML(PrintStream out) {
-        out.printf("<!DOCTYPE html><html><head><title>%s</title></head><body><div>", this.title);
+        this.writeHeadOpen(out);
+        this.writeTitle(out);
+        this.writeStyles(out);
+        this.writeHeadClose(out);
+        this.writeBodyOpen(out);
+        this.writeHeading(out);
+        this.writeSections(out);
+        this.writeDocumentEnd(out);
+    }
+
+    protected void writeSections(PrintStream out) {
+        for (Section section : this.sections) {
+            section.writeHTML(out);
+        }
+    }
+
+    protected void writeHeading(PrintStream out) {
+        out.print("<div class=\"heading\">");
+
         out.printf("<h1>%s</h1>", this.title);
 
         this.photo.writeHTML(out);
 
-        for (Section section : sections) {
-            section.writeHTML(out);
-        }
+        out.print("</div>");
+    }
 
+    protected void writeDocumentEnd(PrintStream out) {
         out.print("</div></body></html>");
+    }
+
+    protected void writeBodyOpen(PrintStream out) {
+        out.print("<body><div class=\"content\">");
+    }
+
+    protected void writeHeadClose(PrintStream out) {
+        out.print("</head>");
+    }
+
+    protected void writeHeadOpen(PrintStream out) {
+        out.print("<!DOCTYPE html><html><head>");
+    }
+
+    protected void writeStyles(PrintStream out) {
+        out.print("<style>.heading{display:flex;align-items:center}h1{flex:1}.content{padding:1rem 2rem;font-family:Arial,sans-serif}</style>");
+    }
+
+    protected void writeTitle(PrintStream out) {
+        out.printf("<title>%s</title>", this.title);
     }
 }
