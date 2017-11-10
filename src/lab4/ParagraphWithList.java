@@ -12,6 +12,7 @@ public class ParagraphWithList extends Paragraph {
 
     public ParagraphWithList(String content) {
         super(content);
+        this.list = new UnorderedList();
     }
 
     public void addItemToList(ListItem item) {
@@ -29,6 +30,8 @@ public class ParagraphWithList extends Paragraph {
     }
 
     public void writeHTML(PrintStream out) {
+        out.printf("<p>%s", this.content);
         this.list.writeHTML(out);
+        out.print("</p>");
     }
 }
