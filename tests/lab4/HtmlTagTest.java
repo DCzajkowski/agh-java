@@ -23,4 +23,8 @@ public abstract class HtmlTagTest {
 
         return output;
     }
+
+    public String getStringBetweenTags(String output) {
+        return output.substring(output.indexOf(">") + 1).substring(0, output.indexOf("<"));
+    }
 }

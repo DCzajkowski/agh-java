@@ -12,7 +12,7 @@ class ParagraphTest extends HtmlTagTest {
         String output = this.output(paragraph);
 
         assertTrue(output.contains("<p"));
-        assertTrue(output.substring(output.indexOf(">") + 1).substring(0, output.indexOf("<")).isEmpty());
+        assertTrue(this.getStringBetweenTags(output).isEmpty());
         assertTrue(output.contains("</p>"));
     }
 
