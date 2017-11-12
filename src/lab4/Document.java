@@ -29,6 +29,7 @@ public class Document {
 
     public void writeHTML(PrintStream out) {
         this.writeHeadOpen(out);
+        this.writeEncoding(out);
         this.writeTitle(out);
         this.writeStyles(out);
         this.writeHeadClose(out);
@@ -36,6 +37,10 @@ public class Document {
         this.writeHeading(out);
         this.writeSections(out);
         this.writeDocumentEnd(out);
+    }
+
+    protected void writeEncoding(PrintStream out) {
+        out.print("<meta charset=\"utf-8\">");
     }
 
     protected void writeSections(PrintStream out) {
