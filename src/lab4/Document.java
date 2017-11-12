@@ -76,7 +76,7 @@ public class Document {
     }
 
     protected void writeStyles(PrintStream out) {
-        out.print("<style>.heading{display:flex;align-items:center}h1{flex:1}.content{padding:1rem 2rem;font-family:Arial,sans-serif}</style>");
+        out.print("<style>.heading{display:flex;align-items:center}h1{flex:1}img{width:80px}.content{padding:1rem 2rem;font-family:Arial,sans-serif}</style>");
     }
 
     protected void writeTitle(PrintStream out) {

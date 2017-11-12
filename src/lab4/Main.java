@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         Document cv = new Document("Jan Kowalski - CV");
 
-        cv.setPhoto("https://en.gravatar.com/avatar/a703468a9fcafd4f309b0c8def5b5738.jpg");
+        cv.setPhoto("https://www.1plusx.com/app/mu-plugins/all-in-one-seo-pack-pro/images/default-user-image.png");
 
         cv.addSection("Wykształcenie")
             .addParagraph("2000-2005 Przedszkole im. Królewny Śnieżki w ...")
