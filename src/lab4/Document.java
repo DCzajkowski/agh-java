@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.PrintStream;
 
-public class Document {
+public class Document implements HtmlTag {
     protected String title;
     protected Photo photo;
     protected List<Section> sections = new ArrayList<>();

@@ -2,11 +2,11 @@ package lab4;
 
 import java.io.PrintStream;
 
-public class Paragraph {
+public class Paragraph implements HtmlTag {
     protected String content;
 
     public Paragraph() {
-         this.setContent("");
+        this.setContent("");
     }
 
     public Paragraph(String content) {

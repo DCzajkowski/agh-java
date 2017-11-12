@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class HtmlList implements HtmlListInterface {
+public abstract class HtmlList implements HtmlListInterface, HtmlTag {
     List<ListItem> items = new ArrayList<>();
 
     public void addItem(ListItem item) {

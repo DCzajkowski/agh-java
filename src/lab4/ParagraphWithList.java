@@ -2,7 +2,7 @@ package lab4;
 
 import java.io.PrintStream;
 
-public class ParagraphWithList extends Paragraph {
+public class ParagraphWithList extends Paragraph implements HtmlTag {
     protected HtmlListInterface list;
 
     public ParagraphWithList() {

@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Section {
+public class Section implements HtmlTag {
     protected String title;
     protected List<Paragraph> paragraphs = new ArrayList<>();
 
@@ -27,7 +27,7 @@ public class Section {
         return this;
     }
 
-    void writeHTML(PrintStream out) {
+    public void writeHTML(PrintStream out) {
         out.printf("<h2>%s</h2>", this.title);
 
         for (Paragraph paragraph : paragraphs) {
