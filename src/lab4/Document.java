@@ -7,7 +7,7 @@ import java.io.PrintStream;
 public class Document {
     protected String title;
     protected Photo photo;
-    protected List<Section> sections = new ArrayList<Section>();
+    protected List<Section> sections = new ArrayList<>();
 
     public Document(String title) {
         this.setTitle(title);
