@@ -1,8 +1,15 @@
 package lab4;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface HtmlList {
-    public void addItem(ListItem item);
-    public void writeHTML(PrintStream out);
+public abstract class HtmlList implements HtmlListInterface {
+    List<ListItem> items = new ArrayList<>();
+
+    public void addItem(ListItem item) {
+        this.items.add(item);
+    }
+
+    public abstract void writeHTML(PrintStream out);
 }

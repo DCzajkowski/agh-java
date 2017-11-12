@@ -3,7 +3,7 @@ package lab4;
 import java.io.PrintStream;
 
 public class ParagraphWithList extends Paragraph {
-    protected HtmlList list;
+    protected HtmlListInterface list;
 
     public ParagraphWithList() {
         super();

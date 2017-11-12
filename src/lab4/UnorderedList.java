@@ -1,16 +1,8 @@
 package lab4;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
-public class UnorderedList implements HtmlList {
-    List<ListItem> items = new ArrayList<>();
-
-    public void addItem(ListItem item) {
-        this.items.add(item);
-    }
-
+public class UnorderedList extends HtmlList {
     public void writeHTML(PrintStream out) {
         out.print("<ul>");
 
