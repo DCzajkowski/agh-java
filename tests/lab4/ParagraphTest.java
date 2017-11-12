@@ -9,7 +9,11 @@ class ParagraphTest extends HtmlTagTest {
     void test_paragraph_contains_no_text_when_created_with_empty_constructor() {
         Paragraph paragraph = new Paragraph();
 
-        assertEquals("<p></p>", this.output(paragraph));
+        String output = this.output(paragraph);
+
+        assertTrue(output.contains("<p"));
+        assertTrue(output.substring(output.indexOf(">") + 1).substring(0, output.indexOf("<")).isEmpty());
+        assertTrue(output.contains("</p>"));
     }
 
     @Test
