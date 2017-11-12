@@ -25,9 +25,8 @@ class UnorderedListTest extends HtmlTagTest {
         String output = this.output(list);
 
         assertTrue(output.contains("<ul"));
-        assertTrue(output.contains("<li"));
-        assertTrue(output.contains(">item 1</li>"));
-        assertTrue(output.contains(">item 2</li>"));
+        assertTrue(output.contains(">item 1</"));
+        assertTrue(output.contains(">item 2</"));
         assertTrue(output.contains("</ul>"));
     }
 }
