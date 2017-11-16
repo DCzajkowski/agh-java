@@ -25,6 +25,7 @@ public class Document implements HtmlTag {
         this.setTitle(title);
     }
 
+    /* Required for XmlRootElement */
     public Document() {
         this.setTitle("");
     }
