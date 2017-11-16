@@ -13,11 +13,14 @@ public class Matrix {
 
     public Matrix(double[][] data) {
         this.setMatrixDetails(data);
-        double[][] filled = this.prepare(data);
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
-                this.set(i, j, filled[i][j]);
+                if (j >= data[i].length) {
+                    this.set(i, j, 0);
+                } else {
+                    this.set(i, j, data[i][j]);
+                }
             }
         }
     }
@@ -26,22 +29,6 @@ public class Matrix {
         this.rows = data.length;
         this.cols = this.rowLength(data);
         this.data = new double[this.rows * this.cols];
-    }
-
-    private double[][] prepare(double[][] data) {
-        double[][] newData = new double[this.rows][this.cols];
-
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.cols; j++) {
-                try {
-                    newData[i][j] = data[i][j];
-                } catch (IndexOutOfBoundsException e) {
-                    newData[i][j] = 0;
-                }
-            }
-        }
-
-        return newData;
     }
 
     private int rowLength(double[][] data) {
