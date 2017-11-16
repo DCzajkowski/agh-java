@@ -7,7 +7,7 @@ import java.io.PrintStream;
 public class ParagraphWithList extends Paragraph implements HtmlTag {
     @XmlElements(value = {
         @XmlElement(name = "unordered-list", type = UnorderedList.class),
-        @XmlElement(name = "ordered-list", type = OrderedList.class)
+        @XmlElement(name = "ordered-list", type = OrderedList.class),
     })
     protected HtmlListInterface list;
 

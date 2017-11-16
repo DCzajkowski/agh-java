@@ -13,7 +13,7 @@ public class Section implements HtmlTag {
 
     @XmlElements(value = {
         @XmlElement(name = "paragraph", type = Paragraph.class),
-        @XmlElement(name = "paragraph-with-list", type = ParagraphWithList.class)
+        @XmlElement(name = "paragraph-with-list", type = ParagraphWithList.class),
     })
     protected List<Paragraph> paragraphs = new ArrayList<>();
 
