@@ -1,8 +1,14 @@
 package lab4;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
 import java.io.PrintStream;
 
 public class ParagraphWithList extends Paragraph implements HtmlTag {
+    @XmlElements(value = {
+        @XmlElement(name = "unordered-list", type = UnorderedList.class),
+        @XmlElement(name = "ordered-list", type = OrderedList.class)
+    })
     protected HtmlListInterface list;
 
     public ParagraphWithList() {

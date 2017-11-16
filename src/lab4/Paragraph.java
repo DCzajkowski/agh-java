@@ -1,8 +1,10 @@
 package lab4;
 
+import javax.xml.bind.annotation.XmlValue;
 import java.io.PrintStream;
 
 public class Paragraph implements HtmlTag {
+    @XmlValue
     protected String content;
 
     public Paragraph() {
