@@ -25,14 +25,14 @@ public class Main {
             );
 
         // Write to file
-         try {
-             cv.writeHTML(new PrintStream("cv.html", "UTF-8"));
-         } catch (FileNotFoundException | UnsupportedEncodingException e) {
-             System.out.println(e.getMessage());
-         }
+        try {
+            cv.writeHTML(new PrintStream("cv.html", "UTF-8"));
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            System.out.println(e.getMessage());
+        }
 
         // Write to the console
-         cv.writeHTML(System.out);
+        cv.writeHTML(System.out);
 
         // Write to XML
         cv.write("cv.xml");
