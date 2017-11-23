@@ -3,6 +3,8 @@ package lab2.Matrix;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MatrixTest {
@@ -113,6 +115,73 @@ class MatrixTest {
             matrix1.div(matrix2).asArray()
         );
     }
+
+    /**
+     * Pop quiz
+     */
+
+    @Test
+    void test_getTransposition() {
+        /* Generate matrix */
+
+        Random random = new Random();
+        int n = random.nextInt(100) + 1;
+        int m = random.nextInt(100) + 1;
+
+        Matrix matrix = new Matrix(n, m);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix.set(i, j, random.nextDouble());
+            }
+        }
+
+        /* Test shapes */
+
+        int[] matrixShape = matrix.shape();
+        assertEquals(n, matrixShape[0]);
+        assertEquals(m, matrixShape[1]);
+
+        Matrix transposition = matrix.getTransposition();
+
+        int[] transpositionShape = transposition.shape();
+        assertEquals(m, transpositionShape[0]);
+        assertEquals(n, transpositionShape[1]);
+
+        /* Test frobenius */
+
+        assertEquals(
+            (double) Math.round(matrix.frobenius() * 100000d) / 100000d,
+            (double) Math.round(transposition.frobenius() * 100000d) / 100000d
+        );
+
+        /* Test transposition ran twice gives the same matrix */
+
+        assertArrayEquals(
+            matrix.asArray(),
+            transposition.getTransposition().asArray()
+        );
+
+        /* Test matrix times its transpose */
+
+        // This test only works for square matrix, as it should.
+        // Matrix result = matrix.dot(transposition);
+
+        // double sumOnDiagonal = 0;
+
+        // for (int i = 0; i < ((n > m) ? m : n); i++) {
+        //     sumOnDiagonal += result.get(i, i);
+        // }
+
+        // assertEquals(
+        //     (double) Math.round(matrix.frobenius() * 100000d) / 100000d,
+        //     (double) Math.round(sumOnDiagonal * 100000d) / 100000d
+        // );
+    }
+
+    /**
+     * End of pop quiz
+     */
 
     @Test
     void test_transposition() {
