@@ -81,23 +81,47 @@ public class CSVReader {
         return this.get(columnLabelsToInt.get(columnName));
     }
 
-    public String get(int i) {
-        return this.current[i];
+    public String get(int columnIndex) {
+        return this.current[columnIndex];
     }
 
     public int getInt(String columnName) {
         return Integer.parseInt(this.get(columnName));
     }
 
-    public int getInt(int i) {
-        return Integer.parseInt(this.get(i));
+    public int getInt(int columnIndex) {
+        return Integer.parseInt(this.get(columnIndex));
     }
 
     public double getDouble(String columnName) {
         return Double.parseDouble(this.get(columnName));
     }
 
-    public double getDouble(int i) {
-        return Double.parseDouble(this.get(i));
+    public double getDouble(int columnIndex) {
+        return Double.parseDouble(this.get(columnIndex));
+    }
+
+    long getLong(String columnName) {
+        return Long.parseLong(this.get(columnName));
+    }
+
+    long getLong(int columnIndex) {
+        return Long.parseLong(this.get(columnIndex));
+    }
+
+    List<String> getColumnLabels() {
+        return this.columnLabels;
+    }
+
+    int getRecordLength() {
+        return String.join(",", this.current).length();
+    }
+
+    boolean isMissing(int columnIndex) {
+        return (this.get(columnIndex) != null && !this.get(columnIndex).isEmpty());
+    }
+
+    boolean isMissing(String columnName) {
+        return (this.get(columnName) != null && !this.get(columnName).isEmpty());
     }
 }
