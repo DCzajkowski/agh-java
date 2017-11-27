@@ -3,6 +3,7 @@ package lab6;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,25 @@ public class CSVReader {
 
     public CSVReader(String filename, String delimiter, boolean hasHeader) throws IOException {
         this.reader = new BufferedReader(new FileReader(filename));
+        this.prepare(delimiter, hasHeader);
+    }
+
+    public CSVReader(String filename, String delimiter) throws IOException {
+        this.reader = new BufferedReader(new FileReader(filename));
+        this.prepare(delimiter, true);
+    }
+
+    public CSVReader(String filename) throws IOException {
+        this.reader = new BufferedReader(new FileReader(filename));
+        this.prepare(",", true);
+    }
+
+    public CSVReader(Reader reader, String delimiter, boolean hasHeader) throws IOException {
+        this.reader = new BufferedReader(reader);
+        this.prepare(delimiter, hasHeader);
+    }
+
+    public void prepare(String delimiter, boolean hasHeader) throws IOException {
         this.delimiter = delimiter;
         this.hasHeader = hasHeader;
 
