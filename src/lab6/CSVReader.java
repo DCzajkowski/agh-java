@@ -23,26 +23,19 @@ public class CSVReader {
     protected String[] current;
 
     public CSVReader(String filename, String delimiter, boolean hasHeader) throws IOException {
-        this.reader = new BufferedReader(new FileReader(filename));
-        this.prepare(delimiter, hasHeader);
+        this(new FileReader(filename), delimiter, hasHeader);
     }
 
     public CSVReader(String filename, String delimiter) throws IOException {
-        this.reader = new BufferedReader(new FileReader(filename));
-        this.prepare(delimiter, true);
+        this(new FileReader(filename), delimiter, true);
     }
 
     public CSVReader(String filename) throws IOException {
-        this.reader = new BufferedReader(new FileReader(filename));
-        this.prepare(",", true);
+        this(new FileReader(filename), ",", true);
     }
 
     public CSVReader(Reader reader, String delimiter, boolean hasHeader) throws IOException {
         this.reader = new BufferedReader(reader);
-        this.prepare(delimiter, hasHeader);
-    }
-
-    public void prepare(String delimiter, boolean hasHeader) throws IOException {
         this.delimiter = delimiter;
         this.hasHeader = hasHeader;
 
