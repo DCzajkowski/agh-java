@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 public class CSVReader {
-    public BufferedReader reader;
-    public String delimiter;
-    public boolean hasHeader;
+    protected BufferedReader reader;
+    protected String delimiter;
+    protected boolean hasHeader;
 
     // column names in the same order as in the file
-    public List<String> columnLabels = new ArrayList<>();
+    protected List<String> columnLabels = new ArrayList<>();
 
     // map: column name -> column number
-    public Map<String, Integer> columnLabelsToInt = new HashMap<>();
+    protected Map<String, Integer> columnLabelsToInt = new HashMap<>();
 
-    public String[] current;
+    protected String[] current;
 
     public CSVReader(String filename, String delimiter, boolean hasHeader) throws IOException {
         this.reader = new BufferedReader(new FileReader(filename));
@@ -31,7 +31,7 @@ public class CSVReader {
         }
     }
 
-    void parseHeader() throws IOException {
+    public void parseHeader() throws IOException {
         String line = this.reader.readLine();
 
         if (line == null) {
