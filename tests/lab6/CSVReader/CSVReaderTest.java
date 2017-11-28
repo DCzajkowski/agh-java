@@ -3,6 +3,7 @@ package lab6.CSVReader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -176,6 +177,28 @@ class CSVReaderTest {
 
             assertArrayEquals(reader1.getClass().getDeclaredFields(), reader2.getClass().getDeclaredFields());
             assertArrayEquals(reader2.getClass().getDeclaredFields(), reader3.getClass().getDeclaredFields());
+        } catch (IOException e) {
+            fail("Exception was thrown, but was not expected");
+        }
+    }
+
+    @Test
+    void test_can_read_from_file() {
+        try {
+            CSVReader reader1 = new CSVReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv");
+            CSVReader reader2 = new CSVReader(new FileReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv"), ",", true);
+
+            assertArrayEquals(reader1.getClass().getDeclaredFields(), reader2.getClass().getDeclaredFields());
+
+            reader1.next();
+
+            assertEquals("John", reader1.get("name"));
+            assertEquals(20, reader1.getInt("age"));
+
+            reader1.next();
+
+            assertEquals("Miranda", reader1.get("name"));
+            assertEquals(22, reader1.getInt("age"));
         } catch (IOException e) {
             fail("Exception was thrown, but was not expected");
         }
