@@ -1,4 +1,4 @@
-package lab6;
+package lab6.CSVReader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -51,7 +51,7 @@ public class CSVReader {
             return;
         }
 
-        String[] header = line.split(this.delimiter);
+        String[] header = this.split(line);
 
         for (int i = 0; i < header.length; i++) {
             this.columnLabelsToInt.put(header[i], i);
@@ -72,17 +72,52 @@ public class CSVReader {
             return false;
         }
 
-        this.current = line.split(this.delimiter);
+        if (!this.isValid(line)) {
+            throw new RuntimeException("Invalid line encountered. There are no sufficient values in the line");
+        }
+
+        this.current = this.split(line);
 
         return true;
     }
 
+    private boolean isValid(String line) {
+        return this.columnLabels.isEmpty() || this.split(line).length == this.columnLabels.size();
+    }
+
+    protected String[] split(String line) {
+        String[] splitLine = line.split(this.delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+
+        for (int i = 0; i < splitLine.length; i++) {
+            splitLine[i] = this.trimQuotes(splitLine[i]);
+        }
+
+        return splitLine;
+    }
+
+    protected String trimQuotes(String str) {
+        return str.replaceAll("^\"", "").replaceAll("\"$", "");
+    }
+
     public String get(String columnName) {
-        return this.get(columnLabelsToInt.get(columnName));
+        System.out.println(this.columnLabelsToInt);
+        return this.get(this.getColumnIndex(columnName));
+    }
+
+    protected int getColumnIndex(String columnName) {
+        if (!this.columnLabelsToInt.containsKey(columnName)) {
+            throw new RuntimeException("There is no column with the name '" + columnName + "'.");
+        }
+
+        return this.columnLabelsToInt.get(columnName);
     }
 
     public String get(int columnIndex) {
-        return this.current[columnIndex];
+        if (this.current == null) {
+            throw new RuntimeException("No lines in a buffer. Have you ran .next() on your reader?");
+        }
+
+        return this.trimQuotes(this.current[columnIndex]);
     }
 
     public int getInt(String columnName) {

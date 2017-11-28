@@ -1,4 +1,4 @@
-package lab6;
+package lab6.CSVReader;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -15,7 +15,7 @@ public class Main {
     }
 
     private static void withHeader() throws IOException {
-        CSVReader reader = new CSVReader("/Users/Darek/Documents/Development/AGH/agh-java/src/lab6/assets/with-header.csv", ";", true);
+        CSVReader reader = new CSVReader("/Users/Darek/Documents/Development/AGH/agh-java/src/CSVReader.CSVReader/assets/with-header.csv", ";", true);
 
         while (reader.next()) {
             int id = reader.getInt("id");
@@ -27,7 +27,7 @@ public class Main {
     }
 
     private static void withoutHeader() throws IOException {
-        CSVReader reader = new CSVReader("/Users/Darek/Documents/Development/AGH/agh-java/src/lab6/assets/no-header.csv", ";", false);
+        CSVReader reader = new CSVReader("/Users/Darek/Documents/Development/AGH/agh-java/src/CSVReader.CSVReader/assets/no-header.csv", ";", false);
 
         while (reader.next()) {
             int id = reader.getInt(0);
