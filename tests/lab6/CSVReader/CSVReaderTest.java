@@ -10,6 +10,8 @@ import java.io.StringReader;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CSVReaderTest {
+    protected String filename = System.getProperty("user.dir") + ("/tests/lab6/CSVReader/assets/test-file.csv".replace("\\/", java.nio.file.FileSystems.getDefault().getSeparator()));
+
     @Test
     void test_exception_is_thrown_for_invalid_reader() {
         Executable callback = () -> new CSVReader("non-existent-file.csv", ",", true);
@@ -171,9 +173,9 @@ class CSVReaderTest {
     @Test
     void test_default_constructors() {
         try {
-            CSVReader reader1 = new CSVReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv", ",", true);
-            CSVReader reader2 = new CSVReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv", ",");
-            CSVReader reader3 = new CSVReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv");
+            CSVReader reader1 = new CSVReader(filename, ",", true);
+            CSVReader reader2 = new CSVReader(filename, ",");
+            CSVReader reader3 = new CSVReader(filename);
 
             assertArrayEquals(reader1.getClass().getDeclaredFields(), reader2.getClass().getDeclaredFields());
             assertArrayEquals(reader2.getClass().getDeclaredFields(), reader3.getClass().getDeclaredFields());
@@ -185,8 +187,8 @@ class CSVReaderTest {
     @Test
     void test_can_read_from_file() {
         try {
-            CSVReader reader1 = new CSVReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv");
-            CSVReader reader2 = new CSVReader(new FileReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv"), ",", true);
+            CSVReader reader1 = new CSVReader(filename);
+            CSVReader reader2 = new CSVReader(new FileReader(filename), ",", true);
 
             assertArrayEquals(reader1.getClass().getDeclaredFields(), reader2.getClass().getDeclaredFields());
 
