@@ -14,10 +14,14 @@ public class CSVReader {
     protected String delimiter;
     protected boolean hasHeader;
 
-    // column names in the same order as in the file
+    /**
+     * column names in the same order as in the file
+     */
     protected List<String> columnLabels = new ArrayList<>();
 
-    // map: column name -> column number
+    /**
+     * map: column name -> column number
+     */
     protected Map<String, Integer> columnLabelsToInt = new HashMap<>();
 
     protected String[] current;
@@ -81,41 +85,12 @@ public class CSVReader {
         return true;
     }
 
-    private boolean isValid(String line) {
-        return this.columnLabels.isEmpty() || this.split(line).length == this.columnLabels.size();
-    }
-
-    protected String[] split(String line) {
-        String[] splitLine = line.split(this.delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-
-        for (int i = 0; i < splitLine.length; i++) {
-            splitLine[i] = this.trimQuotes(splitLine[i]);
-        }
-
-        return splitLine;
-    }
-
-    protected String trimQuotes(String str) {
-        return str.replaceAll("^\"", "").replaceAll("\"$", "");
-    }
-
     public String get(String columnName) {
-        System.out.println(this.columnLabelsToInt);
         return this.get(this.getColumnIndex(columnName));
     }
 
-    protected int getColumnIndex(String columnName) {
-        if (!this.columnLabelsToInt.containsKey(columnName)) {
-            throw new RuntimeException("There is no column with the name '" + columnName + "'.");
-        }
-
-        return this.columnLabelsToInt.get(columnName);
-    }
-
     public String get(int columnIndex) {
-        if (this.current == null) {
-            throw new RuntimeException("No lines in a buffer. Have you ran .next() on your reader?");
-        }
+        if (this.current == null) this.throwNothingInBufferException();
 
         return this.trimQuotes(this.current[columnIndex]);
     }
@@ -136,27 +111,62 @@ public class CSVReader {
         return Double.parseDouble(this.get(columnIndex));
     }
 
-    long getLong(String columnName) {
+    public long getLong(String columnName) {
         return Long.parseLong(this.get(columnName));
     }
 
-    long getLong(int columnIndex) {
+    public long getLong(int columnIndex) {
         return Long.parseLong(this.get(columnIndex));
     }
 
-    List<String> getColumnLabels() {
+    public List<String> getColumnLabels() {
         return this.columnLabels;
     }
 
-    int getRecordLength() {
+    // I may have misunderstood the question. If 'length' refers to the number of values, that would be: return this.current.length
+    public int getRecordLength() {
+        if (this.current == null) this.throwNothingInBufferException();
+
         return String.join(",", this.current).length();
     }
 
-    boolean isMissing(int columnIndex) {
+    // Not sure about that one. Is 'isMissing' referring to an empty value? Why does it need column's index if so.
+    public boolean isMissing(int columnIndex) {
         return (this.get(columnIndex) != null && !this.get(columnIndex).isEmpty());
     }
 
-    boolean isMissing(String columnName) {
+    // @up
+    public boolean isMissing(String columnName) {
         return (this.get(columnName) != null && !this.get(columnName).isEmpty());
+    }
+
+    protected String[] split(String line) {
+        String[] splitLine = line.split(this.delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+
+        for (int i = 0; i < splitLine.length; i++) {
+            splitLine[i] = this.trimQuotes(splitLine[i]);
+        }
+
+        return splitLine;
+    }
+
+    protected String trimQuotes(String str) {
+        return str.replaceAll("^\"", "").replaceAll("\"$", "");
+    }
+
+    protected int getColumnIndex(String columnName) {
+        if (!this.columnLabelsToInt.containsKey(columnName)) {
+            throw new RuntimeException("There is no column with the name '" + columnName + "'.");
+        }
+
+        return this.columnLabelsToInt.get(columnName);
+    }
+
+    protected boolean isValid(String line) {
+        return this.columnLabels.isEmpty() || this.split(line).length == this.columnLabels.size();
+    }
+
+    protected void throwNothingInBufferException() {
+        throw new RuntimeException("No lines in a buffer. Have you ran .next() on your reader?");
     }
 }
