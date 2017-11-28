@@ -166,4 +166,18 @@ class CSVReaderTest {
             fail("Exception was thrown, but was not expected");
         }
     }
+
+    @Test
+    void test_default_constructors() {
+        try {
+            CSVReader reader1 = new CSVReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv", ",", true);
+            CSVReader reader2 = new CSVReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv", ",");
+            CSVReader reader3 = new CSVReader(System.getProperty("user.dir") + "/tests/lab6/CSVReader/assets/test-file.csv");
+
+            assertArrayEquals(reader1.getClass().getDeclaredFields(), reader2.getClass().getDeclaredFields());
+            assertArrayEquals(reader2.getClass().getDeclaredFields(), reader3.getClass().getDeclaredFields());
+        } catch (IOException e) {
+            fail("Exception was thrown, but was not expected");
+        }
+    }
 }
