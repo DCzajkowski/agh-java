@@ -1,5 +1,9 @@
 package lab6.CSVReader;
 
+import lab6.CSVReader.Exceptions.ColumnNotFoundException;
+import lab6.CSVReader.Exceptions.EmptyBufferException;
+import lab6.CSVReader.Exceptions.InvalidColumnIndexException;
+import lab6.CSVReader.Exceptions.NoEnoughValuesException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -16,7 +20,7 @@ class CSVReaderTest {
     void test_exception_is_thrown_for_invalid_reader() {
         Executable callback = () -> new CSVReader("non-existent-file.csv", ",", true);
 
-        assertThrows(IOException.class, callback, "Exception was expected to be thrown for illegal arguments.");
+        assertThrows(IOException.class, callback, "Exception was expected to be thrown for non-existent file.");
     }
 
     @Test
@@ -51,15 +55,15 @@ class CSVReaderTest {
     }
 
     @Test
-    void test_runtime_exception_is_thrown_when_there_is_no_call_to_next() {
+    void test_empty_buffer_exception_is_thrown_when_there_is_no_call_to_next() {
         String text = "a,b,c\n123.4,567.8,91011.12";
 
         Executable callback = () -> {
             CSVReader reader = new CSVReader(new StringReader(text), ",", true);
-            String _ = reader.get("name");
+            reader.get("a");
         };
 
-        assertThrows(RuntimeException.class, callback, "Exception was expected to be thrown for no .next() call.");
+        assertThrows(EmptyBufferException.class, callback, "Exception was expected to be thrown for no .next() call.");
     }
 
     @Test
@@ -126,7 +130,7 @@ class CSVReaderTest {
     }
 
     @Test
-    void test_runtime_exception_is_thrown_when_there_is_an_invalid_line() {
+    void test_no_enough_values_exception_is_thrown_when_there_is_an_invalid_line() {
         String text = "a,b,c\n1,2,3\n4,5,6\n7,8\n9,10,11";
 
         try {
@@ -135,7 +139,7 @@ class CSVReaderTest {
             assertTrue(reader.next());
             assertTrue(reader.next());
 
-            assertThrows(RuntimeException.class, reader::next, "Invalid line did not throw an exception.");
+            assertThrows(NoEnoughValuesException.class, reader::next, "Invalid line did not throw an exception.");
 
             assertTrue(reader.next());
         } catch (IOException e) {
@@ -201,6 +205,42 @@ class CSVReaderTest {
 
             assertEquals("Miranda", reader1.get("name"));
             assertEquals(22, reader1.getInt("age"));
+        } catch (IOException e) {
+            fail("Exception was thrown, but was not expected");
+        }
+    }
+
+    @Test
+    void test_getting_invalid_column_throws_column_not_found_exception() {
+        String text = "a,b,c\n1,2,3";
+
+        try {
+            CSVReader reader = new CSVReader(new StringReader(text), ",", true);
+
+            reader.next();
+
+            assertThrows(ColumnNotFoundException.class, () -> reader.get("non-existent-column"), "Exception was expected to be thrown for invalid column name.");
+            assertThrows(ColumnNotFoundException.class, () -> reader.getInt("non-existent-column"), "Exception was expected to be thrown for invalid column name.");
+            assertThrows(ColumnNotFoundException.class, () -> reader.getDouble("non-existent-column"), "Exception was expected to be thrown for invalid column name.");
+            assertThrows(ColumnNotFoundException.class, () -> reader.getLong("non-existent-column"), "Exception was expected to be thrown for invalid column name.");
+        } catch (IOException e) {
+            fail("Exception was thrown, but was not expected");
+        }
+    }
+
+    @Test
+    void test_getting_values_out_of_range_throws_out_of_range_exception() {
+        String text = "a,b,c";
+
+        try {
+            CSVReader reader = new CSVReader(new StringReader(text), ",", false);
+
+            reader.next();
+
+            assertThrows(InvalidColumnIndexException.class, () -> reader.get(3), "Exception was expected to be thrown for invalid column name.");
+            assertThrows(InvalidColumnIndexException.class, () -> reader.getInt(3), "Exception was expected to be thrown for invalid column name.");
+            assertThrows(InvalidColumnIndexException.class, () -> reader.getDouble(3), "Exception was expected to be thrown for invalid column name.");
+            assertThrows(InvalidColumnIndexException.class, () -> reader.getLong(3), "Exception was expected to be thrown for invalid column name.");
         } catch (IOException e) {
             fail("Exception was thrown, but was not expected");
         }

@@ -1,5 +1,10 @@
 package lab6.CSVReader;
 
+import lab6.CSVReader.Exceptions.EmptyBufferException;
+import lab6.CSVReader.Exceptions.ColumnNotFoundException;
+import lab6.CSVReader.Exceptions.InvalidColumnIndexException;
+import lab6.CSVReader.Exceptions.NoEnoughValuesException;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -77,7 +82,7 @@ public class CSVReader {
         }
 
         if (!this.isValid(line)) {
-            throw new RuntimeException("Invalid line encountered. There are no sufficient values in the line");
+            throw new NoEnoughValuesException();
         }
 
         this.current = this.split(line);
@@ -90,7 +95,8 @@ public class CSVReader {
     }
 
     public String get(int columnIndex) {
-        if (this.current == null) this.throwNothingInBufferException();
+        if (this.current == null) throw new EmptyBufferException();
+        if (columnIndex < 0 || columnIndex >= this.current.length) throw new InvalidColumnIndexException(this.current.length);
 
         return this.trimQuotes(this.current[columnIndex]);
     }
@@ -125,7 +131,7 @@ public class CSVReader {
 
     // I may have misunderstood the question. If 'length' refers to the number of values, that would be: return this.current.length
     public int getRecordLength() {
-        if (this.current == null) this.throwNothingInBufferException();
+        if (this.current == null) throw new EmptyBufferException();
 
         return String.join(",", this.current).length();
     }
@@ -156,7 +162,7 @@ public class CSVReader {
 
     protected int getColumnIndex(String columnName) {
         if (!this.columnLabelsToInt.containsKey(columnName)) {
-            throw new RuntimeException("There is no column with the name '" + columnName + "'.");
+            throw new ColumnNotFoundException(columnName);
         }
 
         return this.columnLabelsToInt.get(columnName);
@@ -164,9 +170,5 @@ public class CSVReader {
 
     protected boolean isValid(String line) {
         return this.columnLabels.isEmpty() || this.split(line).length == this.columnLabels.size();
-    }
-
-    protected void throwNothingInBufferException() {
-        throw new RuntimeException("No lines in a buffer. Have you ran .next() on your reader?");
     }
 }
