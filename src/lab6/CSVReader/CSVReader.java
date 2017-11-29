@@ -3,7 +3,6 @@ package lab6.CSVReader;
 import lab6.CSVReader.Exceptions.EmptyBufferException;
 import lab6.CSVReader.Exceptions.ColumnNotFoundException;
 import lab6.CSVReader.Exceptions.InvalidColumnIndexException;
-import lab6.CSVReader.Exceptions.NoEnoughValuesException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -81,10 +80,6 @@ public class CSVReader {
             return false;
         }
 
-        if (!this.isValid(line)) {
-            throw new NoEnoughValuesException();
-        }
-
         this.current = this.split(line);
 
         return true;
@@ -96,7 +91,8 @@ public class CSVReader {
 
     public String get(int columnIndex) {
         if (this.current == null) throw new EmptyBufferException();
-        if (columnIndex < 0 || columnIndex >= this.current.length) throw new InvalidColumnIndexException(this.current.length);
+        if (columnIndex < 0 || columnIndex >= this.current.length)
+            throw new InvalidColumnIndexException(this.current.length);
 
         return this.trimQuotes(this.current[columnIndex]);
     }
@@ -129,21 +125,18 @@ public class CSVReader {
         return this.columnLabels;
     }
 
-    // I may have misunderstood the question. If 'length' refers to the number of values, that would be: return this.current.length
     public int getRecordLength() {
         if (this.current == null) throw new EmptyBufferException();
 
-        return String.join(",", this.current).length();
+        return this.current.length;
     }
 
-    // Not sure about that one. Is 'isMissing' referring to an empty value? Why does it need column's index if so.
     public boolean isMissing(int columnIndex) {
-        return (this.get(columnIndex) != null && !this.get(columnIndex).isEmpty());
+        return columnIndex >= this.getRecordLength();
     }
 
-    // @up
     public boolean isMissing(String columnName) {
-        return (this.get(columnName) != null && !this.get(columnName).isEmpty());
+        return (!this.columnLabelsToInt.containsKey(columnName) || this.columnLabelsToInt.get(columnName) >= this.getRecordLength());
     }
 
     protected String[] split(String line) {
@@ -166,9 +159,5 @@ public class CSVReader {
         }
 
         return this.columnLabelsToInt.get(columnName);
-    }
-
-    protected boolean isValid(String line) {
-        return this.columnLabels.isEmpty() || this.split(line).length == this.columnLabels.size();
     }
 }

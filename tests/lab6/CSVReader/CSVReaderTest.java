@@ -3,7 +3,6 @@ package lab6.CSVReader;
 import lab6.CSVReader.Exceptions.ColumnNotFoundException;
 import lab6.CSVReader.Exceptions.EmptyBufferException;
 import lab6.CSVReader.Exceptions.InvalidColumnIndexException;
-import lab6.CSVReader.Exceptions.NoEnoughValuesException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -130,24 +129,6 @@ class CSVReaderTest {
     }
 
     @Test
-    void test_no_enough_values_exception_is_thrown_when_there_is_an_invalid_line() {
-        String text = "a,b,c\n1,2,3\n4,5,6\n7,8\n9,10,11";
-
-        try {
-            CSVReader reader = new CSVReader(new StringReader(text), ",", true);
-
-            assertTrue(reader.next());
-            assertTrue(reader.next());
-
-            assertThrows(NoEnoughValuesException.class, reader::next, "Invalid line did not throw an exception.");
-
-            assertTrue(reader.next());
-        } catch (IOException e) {
-            fail("Exception was thrown, but was not expected");
-        }
-    }
-
-    @Test
     void test_values_in_quotes_are_correctly_interpreted() {
         String text = "\"surname, name\",age,balance,pesel\n\"Doe, John\",20,11213.95,13311494985\n\"Jones, Miranda\",21,27234.24,93110158709";
 
@@ -241,6 +222,58 @@ class CSVReaderTest {
             assertThrows(InvalidColumnIndexException.class, () -> reader.getInt(3), "Exception was expected to be thrown for invalid column name.");
             assertThrows(InvalidColumnIndexException.class, () -> reader.getDouble(3), "Exception was expected to be thrown for invalid column name.");
             assertThrows(InvalidColumnIndexException.class, () -> reader.getLong(3), "Exception was expected to be thrown for invalid column name.");
+        } catch (IOException e) {
+            fail("Exception was thrown, but was not expected");
+        }
+    }
+
+    @Test
+    void test_user_can_get_all_elements_when_lines_are_uneven() {
+        String text = "1,2,3\n1,2";
+
+        try {
+            CSVReader reader = new CSVReader(new StringReader(text), ",", false);
+
+            reader.next();
+
+            assertEquals(3, reader.getRecordLength());
+
+            reader.next();
+
+            assertEquals(2, reader.getRecordLength());
+        } catch (IOException e) {
+            fail("Exception was thrown, but was not expected");
+        }
+    }
+
+
+    @Test
+    void test_when_invalid_line_is_encountered_is_missing_returns_true() {
+        String text = "a,b,c\n1,2,3\n1,2\n1,2,3";
+
+        try {
+            CSVReader reader = new CSVReader(new StringReader(text), ",", true);
+
+            reader.next();
+
+            assertFalse(reader.isMissing("a") || reader.isMissing(0));
+            assertFalse(reader.isMissing("b") || reader.isMissing(1));
+            assertFalse(reader.isMissing("c") || reader.isMissing(2));
+            assertTrue(reader.isMissing("d") && reader.isMissing(3));
+
+            reader.next();
+
+            assertFalse(reader.isMissing("a") || reader.isMissing(0));
+            assertFalse(reader.isMissing("b") || reader.isMissing(1));
+            assertTrue(reader.isMissing("c") && reader.isMissing(2));
+            assertTrue(reader.isMissing("d") && reader.isMissing(3));
+
+            reader.next();
+
+            assertFalse(reader.isMissing("a") || reader.isMissing(0));
+            assertFalse(reader.isMissing("b") || reader.isMissing(1));
+            assertFalse(reader.isMissing("c") || reader.isMissing(2));
+            assertTrue(reader.isMissing("d") && reader.isMissing(3));
         } catch (IOException e) {
             fail("Exception was thrown, but was not expected");
         }
