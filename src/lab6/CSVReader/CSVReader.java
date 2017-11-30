@@ -132,11 +132,11 @@ public class CSVReader {
     }
 
     public boolean isMissing(int columnIndex) {
-        return columnIndex >= this.getRecordLength();
+        return columnIndex >= this.getRecordLength() || current[columnIndex].isEmpty();
     }
 
     public boolean isMissing(String columnName) {
-        return (!this.columnLabelsToInt.containsKey(columnName) || this.columnLabelsToInt.get(columnName) >= this.getRecordLength());
+        return (!this.columnLabelsToInt.containsKey(columnName) || this.isMissing(this.columnLabelsToInt.get(columnName)));
     }
 
     protected String[] split(String line) {
