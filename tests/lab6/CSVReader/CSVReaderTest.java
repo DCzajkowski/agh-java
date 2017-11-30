@@ -246,7 +246,6 @@ class CSVReaderTest {
         }
     }
 
-
     @Test
     void test_when_invalid_line_is_encountered_is_missing_returns_true() {
         String text = "a,b,c\n1,2,3\n1,2\n1,2,3";
