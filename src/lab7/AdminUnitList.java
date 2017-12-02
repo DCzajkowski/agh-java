@@ -6,13 +6,17 @@ import lab7.Exceptions.InvalidParentException;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AdminUnitList {
     protected List<AdminUnit> units = new ArrayList<>();
     protected HashMap<Long, AdminUnit> idToAdminUnit = new HashMap<>();
     protected HashMap<AdminUnit, Long> adminUnitToParentId = new HashMap<>();
+    Map<Long, List<AdminUnit>> parentIdToChildren = new HashMap<>();
 
     public AdminUnitList() {
         //
@@ -48,6 +52,28 @@ public class AdminUnitList {
         }
 
         this.addParentsToUnits();
+        this.addChildrenToUnits();
+    }
+
+    /**
+     * Adds children to units' objects
+     */
+    protected void addChildrenToUnits() {
+        this.units.forEach(unit -> {
+            if (unit.parent == null) return;
+
+            if (this.parentIdToChildren.get(unit.parent.getId()) != null) {
+                this.parentIdToChildren.get(unit.parent.getId()).add(unit);
+            } else {
+                this.parentIdToChildren.put(unit.parent.getId(), new ArrayList<AdminUnit>() {{
+                    add(unit);
+                }});
+            }
+        });
+
+        this.parentIdToChildren.forEach((Long parentId, List<AdminUnit> children) -> {
+            this.idToAdminUnit.get(parentId).setChildren(children);
+        });
     }
 
     /**

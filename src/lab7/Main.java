@@ -9,7 +9,7 @@ public class Main {
 
         try {
             units.read(filename);
-            // units.list(System.out, 0, 10);
+            units.list(System.out, 0, 100);
             // units.selectByName("Kraków", false).list(System.out);
             // units.selectByName("małopolskie", false).list(System.out);
         } catch (IOException e) {

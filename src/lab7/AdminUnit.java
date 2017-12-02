@@ -1,5 +1,9 @@
 package lab7;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class AdminUnit {
     protected long id;
     protected String name;
@@ -9,6 +13,7 @@ public class AdminUnit {
     protected double density;
     protected AdminUnit parent;
     protected BoundingBox boundingbox = new BoundingBox();
+    List<AdminUnit> children;
 
     public long getId() {
         return this.id;
@@ -88,10 +93,30 @@ public class AdminUnit {
         }
     }
 
+    public List<AdminUnit> getChildren() {
+        return this.children;
+    }
+
+    public void setChildren(List<AdminUnit> children) {
+        this.children = children;
+    }
+
+    public void addChild(AdminUnit unit) {
+        this.children.add(unit);
+    }
+
     @Override
     public String toString() {
-        return (this.parent != null)
-            ? String.format("Name is %s and population is %f. Area is %f. Its parent is %s.", this.name, this.population, this.area, this.parent.getName())
-            : String.format("Name is %s and population is %f. Area is %f.", this.name, this.population, this.area);
+        StringBuilder result = new StringBuilder(String.format("Name is %s and population is %f. Area is %f.", this.name, this.population, this.area));
+
+        if (this.parent != null) {
+            result.append(String.format(" Its parent is %s.", this.parent.getName()));
+        }
+
+        if (this.children != null && this.children.size() > 0) {
+            result.append(String.format(" Its children are: %s.", String.join(", ", this.children.stream().map(AdminUnit::getName).collect(Collectors.toList()))));
+        }
+
+        return result.toString();
     }
 }
