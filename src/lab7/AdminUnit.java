@@ -1,6 +1,7 @@
 package lab7;
 
 public class AdminUnit {
+    protected long id;
     protected String name;
     protected int adminLevel;
     protected double population;
@@ -8,6 +9,14 @@ public class AdminUnit {
     protected double density;
     protected AdminUnit parent;
     protected BoundingBox boundingbox = new BoundingBox();
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -67,6 +76,8 @@ public class AdminUnit {
 
     @Override
     public String toString() {
-        return String.format("Name is %s and population is %f. Area is %f.", this.name, this.population, this.area);
+        return (this.parent != null)
+            ? String.format("Name is %s and population is %f. Area is %f. Its parent is %s.", this.name, this.population, this.area, this.parent.getName())
+            : String.format("Name is %s and population is %f. Area is %f.", this.name, this.population, this.area);
     }
 }

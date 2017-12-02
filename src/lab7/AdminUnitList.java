@@ -2,29 +2,56 @@ package lab7;
 
 import lab6.CSVReader.CSVReader;
 import lab7.Exceptions.InvalidOffsetException;
+import lab7.Exceptions.InvalidParentException;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class AdminUnitList {
     protected List<AdminUnit> units = new ArrayList<>();
+    protected HashMap<Long, AdminUnit> idToAdminUnit = new HashMap<>();
+    protected HashMap<AdminUnit, Long> adminUnitToParentId = new HashMap<>();
 
+    /**
+     * Reads units from a file into a buffer
+     *
+     * @param filename
+     * @throws InvalidParentException when there is no parent of given id found
+     */
     public void read(String filename) throws IOException {
         CSVReader reader = new CSVReader(filename, ",", true);
 
         while (reader.next()) {
             AdminUnit unit = new AdminUnit();
 
+            if (!reader.isMissing("id")) unit.setId(reader.getLong("id"));
             if (!reader.isMissing("name")) unit.setName(reader.get("name"));
             if (!reader.isMissing("admin_level")) unit.setAdminLevel(reader.getInt("admin_level"));
             if (!reader.isMissing("population")) unit.setPopulation(reader.getDouble("population"));
             if (!reader.isMissing("area")) unit.setArea(reader.getDouble("area"));
             if (!reader.isMissing("density")) unit.setDensity(reader.getDouble("density"));
 
+            this.idToAdminUnit.put(unit.id, unit);
+            if (!reader.isMissing("parent")) this.adminUnitToParentId.put(unit, reader.getLong("parent"));
+
             this.units.add(unit);
         }
+
+        this.addParentsToUnits();
+    }
+
+    /**
+     * Adds parents to units' objects
+     *
+     * @throws InvalidParentException when there is no parent of given id found
+     */
+    protected void addParentsToUnits() {
+        this.adminUnitToParentId.forEach((AdminUnit unit, Long parentId) -> {
+            if (this.idToAdminUnit.get(parentId) == null) throw new InvalidParentException(parentId);
+
+            this.idToAdminUnit.get(unit.id).setParent(this.idToAdminUnit.get(parentId));
+        });
     }
 
     /**
@@ -32,7 +59,7 @@ public class AdminUnitList {
      *
      * @param out
      */
-    void list(PrintStream out) {
+    public void list(PrintStream out) {
         this.units.forEach(unit -> out.println(unit.toString()));
     }
 
@@ -43,7 +70,7 @@ public class AdminUnitList {
      * @param offset - where to start printing
      * @param limit  - hom many elements (at most) to print
      */
-    void list(PrintStream out, int offset, int limit) {
+    public void list(PrintStream out, int offset, int limit) {
         if (offset > this.units.size() || offset < 0) {
             throw new InvalidOffsetException(this.units.size());
         }
@@ -66,7 +93,7 @@ public class AdminUnitList {
      *
      * @param unit
      */
-    void add(AdminUnit unit) {
+    public void add(AdminUnit unit) {
         this.units.add(unit);
     }
 
@@ -77,7 +104,7 @@ public class AdminUnitList {
      * @param regex   - is regular expression
      * @return AdminUnitList containing only matching units
      */
-    AdminUnitList selectByName(String pattern, boolean regex) {
+    public AdminUnitList selectByName(String pattern, boolean regex) {
         AdminUnitList result = new AdminUnitList();
 
         for (AdminUnit unit : this.units) {
