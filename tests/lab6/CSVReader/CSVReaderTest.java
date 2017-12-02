@@ -9,6 +9,7 @@ import org.junit.jupiter.api.function.Executable;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +38,7 @@ class CSVReaderTest {
 
     @Test
     void test_values_are_returned_correctly_when_header_is_available() {
-        String text = "name,age,balance,pesel\nJohn Doe,20,11213.95,13311494985";
+        String text = "name,age,balance,pesel,date,time\nJohn Doe,20,11213.95,13311494985,27-11-2017,11:12:20";
 
         try {
             CSVReader reader = new CSVReader(new StringReader(text), ",", true);
@@ -48,6 +49,8 @@ class CSVReaderTest {
             assertEquals(20, reader.getInt("age"));
             assertEquals(11213.95D, reader.getDouble("balance"));
             assertEquals(13311494985L, reader.getLong("pesel"));
+            assertEquals("2017-11-27", reader.getDate("date", "dd-MM-yyyy").format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            assertEquals("11:12", reader.getTime("time", "HH:mm:ss").format(DateTimeFormatter.ofPattern("HH:mm")));
         } catch (IOException e) {
             fail("Exception was thrown, but was not expected");
         }

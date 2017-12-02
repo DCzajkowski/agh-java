@@ -8,6 +8,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -119,6 +122,22 @@ public class CSVReader {
 
     public long getLong(int columnIndex) {
         return Long.parseLong(this.get(columnIndex));
+    }
+
+    public LocalTime getTime(String columnName, String format) {
+        return LocalTime.parse(this.get(columnName), DateTimeFormatter.ofPattern(format));
+    }
+
+    public LocalTime getTime(int columnIndex, String format) {
+        return LocalTime.parse(this.get(columnIndex), DateTimeFormatter.ofPattern(format));
+    }
+
+    public LocalDate getDate(String columnName, String format) {
+        return LocalDate.parse(this.get(columnName), DateTimeFormatter.ofPattern(format));
+    }
+
+    public LocalDate getDate(int columnIndex, String format) {
+        return LocalDate.parse(this.get(columnIndex), DateTimeFormatter.ofPattern(format));
     }
 
     public List<String> getColumnLabels() {
