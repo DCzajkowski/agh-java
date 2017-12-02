@@ -74,6 +74,20 @@ public class AdminUnit {
         this.boundingbox = boundingbox;
     }
 
+    public void fixMissingValues() {
+        if (this.population == 0) {
+            this.population = this.area * this.density;
+        }
+
+        if (this.density == 0 && this.parent != null) {
+            if (this.parent.getDensity() == 0) {
+                this.parent.fixMissingValues();
+            }
+
+            this.density = this.parent.getDensity();
+        }
+    }
+
     @Override
     public String toString() {
         return (this.parent != null)

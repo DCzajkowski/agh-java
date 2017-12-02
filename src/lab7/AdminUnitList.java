@@ -117,5 +117,7 @@ public class AdminUnitList {
         }
 
         return result;
+    protected void fixMissingValues() {
+        this.units.forEach(AdminUnit::fixMissingValues);
     }
 }
