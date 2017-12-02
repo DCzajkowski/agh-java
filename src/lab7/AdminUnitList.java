@@ -7,11 +7,20 @@ import lab7.Exceptions.InvalidParentException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AdminUnitList {
     protected List<AdminUnit> units = new ArrayList<>();
     protected HashMap<Long, AdminUnit> idToAdminUnit = new HashMap<>();
     protected HashMap<AdminUnit, Long> adminUnitToParentId = new HashMap<>();
+
+    public AdminUnitList() {
+        //
+    }
+
+    private AdminUnitList(List<AdminUnit> units) {
+        this.units = units;
+    }
 
     /**
      * Reads units from a file into a buffer
@@ -60,7 +69,7 @@ public class AdminUnitList {
      * @param out
      */
     public void list(PrintStream out) {
-        this.units.forEach(unit -> out.println(unit.toString()));
+        this.units.forEach(out::println);
     }
 
     /**
@@ -79,13 +88,8 @@ public class AdminUnitList {
             limit = this.units.size() - offset;
         }
 
-        for (int i = offset; i < offset + limit; i++) {
-            try {
-                out.println(this.units.get(i).toString());
-            } catch (IndexOutOfBoundsException e) {
-                break;
-            }
-        }
+        this.units.subList(offset, offset + limit)
+            .forEach(unit -> out.println(unit.toString()));
     }
 
     /**
@@ -105,18 +109,16 @@ public class AdminUnitList {
      * @return AdminUnitList containing only matching units
      */
     public AdminUnitList selectByName(String pattern, boolean regex) {
-        AdminUnitList result = new AdminUnitList();
+        return new AdminUnitList(
+            this.units.stream()
+                .filter(unit ->
+                    (regex && unit.getName().matches(pattern))
+                        || (!regex && unit.getName().contains(pattern))
+                )
+                .collect(Collectors.toList())
+        );
+    }
 
-        for (AdminUnit unit : this.units) {
-            if (
-                (regex && unit.getName().matches(pattern))
-                    || (!regex && unit.getName().contains(pattern))
-                ) {
-                result.add(unit);
-            }
-        }
-
-        return result;
     protected void fixMissingValues() {
         this.units.forEach(AdminUnit::fixMissingValues);
     }
