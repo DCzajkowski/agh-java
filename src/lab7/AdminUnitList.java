@@ -1,5 +1,6 @@
 package lab7;
 
+import app.Helpers;
 import lab6.CSVReader.CSVReader;
 import lab7.Exceptions.InvalidOffsetException;
 import lab7.Exceptions.InvalidParentException;
@@ -63,7 +64,7 @@ public class AdminUnitList {
                 if (this.parentIdToChildren.get(unit.parent.getId()) != null) {
                     this.parentIdToChildren.get(unit.parent.getId()).add(unit);
                 } else {
-                    this.parentIdToChildren.put(unit.parent.getId(), Collections.singletonList(unit));
+                    this.parentIdToChildren.put(unit.parent.getId(), Helpers.tap(new ArrayList<>(), list -> list.add(unit)));
                 }
             });
 
