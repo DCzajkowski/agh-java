@@ -56,21 +56,18 @@ public class AdminUnitList {
      * Adds children to units' objects
      */
     protected void addChildrenToUnits() {
-        this.units.forEach(unit -> {
-            if (unit.parent == null) return;
+        this.units
+            .stream()
+            .filter(unit -> unit.parent != null)
+            .forEach(unit -> {
+                if (this.parentIdToChildren.get(unit.parent.getId()) != null) {
+                    this.parentIdToChildren.get(unit.parent.getId()).add(unit);
+                } else {
+                    this.parentIdToChildren.put(unit.parent.getId(), Collections.singletonList(unit));
+                }
+            });
 
-            if (this.parentIdToChildren.get(unit.parent.getId()) != null) {
-                this.parentIdToChildren.get(unit.parent.getId()).add(unit);
-            } else {
-                this.parentIdToChildren.put(unit.parent.getId(), new ArrayList<AdminUnit>() {{
-                    add(unit);
-                }});
-            }
-        });
-
-        this.parentIdToChildren.forEach((Long parentId, List<AdminUnit> children) -> {
-            this.idToAdminUnit.get(parentId).setChildren(children);
-        });
+        this.parentIdToChildren.forEach((parentId, children) -> this.idToAdminUnit.get(parentId).setChildren(children));
     }
 
     /**
@@ -79,7 +76,7 @@ public class AdminUnitList {
      * @throws InvalidParentException when there is no parent of given id found
      */
     protected void addParentsToUnits() {
-        this.adminUnitToParentId.forEach((AdminUnit unit, Long parentId) -> {
+        this.adminUnitToParentId.forEach((unit, parentId) -> {
             if (this.idToAdminUnit.get(parentId) == null) throw new InvalidParentException(parentId);
 
             this.idToAdminUnit.get(unit.id).setParent(this.idToAdminUnit.get(parentId));
@@ -111,7 +108,8 @@ public class AdminUnitList {
             limit = this.units.size() - offset;
         }
 
-        this.units.subList(offset, offset + limit)
+        this.units
+            .subList(offset, offset + limit)
             .forEach(unit -> out.println(unit.toString()));
     }
 
