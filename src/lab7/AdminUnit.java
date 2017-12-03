@@ -12,7 +12,7 @@ public class AdminUnit {
     protected double density;
     protected AdminUnit parent;
     protected BoundingBox boundingbox = new BoundingBox();
-    List<AdminUnit> children;
+    protected List<AdminUnit> children;
 
     public long getId() {
         return this.id;

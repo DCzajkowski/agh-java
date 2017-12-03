@@ -6,17 +6,14 @@ import lab7.Exceptions.InvalidParentException;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AdminUnitList {
     protected List<AdminUnit> units = new ArrayList<>();
     protected HashMap<Long, AdminUnit> idToAdminUnit = new HashMap<>();
     protected HashMap<AdminUnit, Long> adminUnitToParentId = new HashMap<>();
-    Map<Long, List<AdminUnit>> parentIdToChildren = new HashMap<>();
+    protected Map<Long, List<AdminUnit>> parentIdToChildren = new HashMap<>();
 
     public AdminUnitList() {
         //
@@ -136,7 +133,8 @@ public class AdminUnitList {
      */
     public AdminUnitList selectByName(String pattern, boolean regex) {
         return new AdminUnitList(
-            this.units.stream()
+            this.units
+                .stream()
                 .filter(unit ->
                     (regex && unit.getName().matches(pattern))
                         || (!regex && unit.getName().contains(pattern))
