@@ -78,6 +78,18 @@ public class AdminUnit {
         this.boundingbox = boundingbox;
     }
 
+    public List<AdminUnit> getChildren() {
+        return this.children;
+    }
+
+    public void setChildren(List<AdminUnit> children) {
+        this.children = children;
+    }
+
+    public void addChild(AdminUnit unit) {
+        this.children.add(unit);
+    }
+
     public void fixMissingValues() {
         if (this.population == 0) {
             this.population = this.area * this.density;
@@ -90,18 +102,6 @@ public class AdminUnit {
 
             this.density = this.parent.getDensity();
         }
-    }
-
-    public List<AdminUnit> getChildren() {
-        return this.children;
-    }
-
-    public void setChildren(List<AdminUnit> children) {
-        this.children = children;
-    }
-
-    public void addChild(AdminUnit unit) {
-        this.children.add(unit);
     }
 
     @Override
