@@ -11,7 +11,7 @@ public class AdminUnit {
     protected double area;
     protected double density;
     protected AdminUnit parent;
-    protected BoundingBox boundingbox = new BoundingBox();
+    protected BoundingBox boundingBox = new BoundingBox();
     protected List<AdminUnit> children;
 
     public long getId() {
@@ -70,12 +70,12 @@ public class AdminUnit {
         this.parent = parent;
     }
 
-    public BoundingBox getBoundingbox() {
-        return boundingbox;
+    public BoundingBox getBoundingBox() {
+        return boundingBox;
     }
 
-    public void setBoundingbox(BoundingBox boundingbox) {
-        this.boundingbox = boundingbox;
+    public void setBoundingBox(BoundingBox boundingBox) {
+        this.boundingBox = boundingBox;
     }
 
     public List<AdminUnit> getChildren() {
@@ -91,17 +91,11 @@ public class AdminUnit {
     }
 
     public void fixMissingValues() {
-        if (this.population == 0) {
-            this.population = this.area * this.density;
-        }
-
-        if (this.density == 0 && this.parent != null) {
-            if (this.parent.getDensity() == 0) {
-                this.parent.fixMissingValues();
-            }
-
-            this.density = this.parent.getDensity();
-        }
+        if (this.parent != null && (this.parent.getArea() == 0 || this.parent.getDensity() == 0))
+            this.parent.fixMissingValues();
+        if (this.parent != null && this.area == 0) this.area = this.parent.getArea();
+        if (this.parent != null && this.density == 0) this.density = this.parent.getDensity();
+        if (this.population == 0) this.population = this.area * this.density;
     }
 
     @Override

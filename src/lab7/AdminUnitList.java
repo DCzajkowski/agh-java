@@ -39,21 +39,40 @@ public class AdminUnitList {
         while (reader.next()) {
             AdminUnit unit = new AdminUnit();
 
-            if (!reader.isMissing("id")) unit.setId(reader.getLong("id"));
-            if (!reader.isMissing("name")) unit.setName(reader.get("name"));
-            if (!reader.isMissing("admin_level")) unit.setAdminLevel(reader.getInt("admin_level"));
-            if (!reader.isMissing("population")) unit.setPopulation(reader.getDouble("population"));
-            if (!reader.isMissing("area")) unit.setArea(reader.getDouble("area"));
-            if (!reader.isMissing("density")) unit.setDensity(reader.getDouble("density"));
-
-            this.idToAdminUnit.put(unit.id, unit);
-            if (!reader.isMissing("parent")) this.adminUnitToParentId.put(unit, reader.getLong("parent"));
-
-            this.units.add(unit);
+            this.fillUnitWithReader(unit, reader);
+            this.fillListDetails(unit, reader);
         }
 
         this.addParentsToUnits();
         this.addChildrenToUnits();
+    }
+
+    protected void fillListDetails(AdminUnit unit, CSVReader reader) {
+        this.idToAdminUnit.put(unit.id, unit);
+
+        if (!reader.isMissing("parent")) this.adminUnitToParentId.put(unit, reader.getLong("parent"));
+
+        this.units.add(unit);
+    }
+
+    protected void fillUnitWithReader(AdminUnit unit, CSVReader reader) {
+        if (!reader.isMissing("id")) unit.setId(reader.getLong("id"));
+        if (!reader.isMissing("name")) unit.setName(reader.get("name"));
+        if (!reader.isMissing("admin_level")) unit.setAdminLevel(reader.getInt("admin_level"));
+        if (!reader.isMissing("population")) unit.setPopulation(reader.getDouble("population"));
+        if (!reader.isMissing("area")) unit.setArea(reader.getDouble("area"));
+        if (!reader.isMissing("density")) unit.setDensity(reader.getDouble("density"));
+
+        if (!reader.isMissing("x1") && !reader.isMissing("y1"))
+            unit.getBoundingBox().addPoint(reader.getDouble("x1"), reader.getDouble("y1"));
+        if (!reader.isMissing("x2") && !reader.isMissing("y2"))
+            unit.getBoundingBox().addPoint(reader.getDouble("x2"), reader.getDouble("y2"));
+        if (!reader.isMissing("x3") && !reader.isMissing("y3"))
+            unit.getBoundingBox().addPoint(reader.getDouble("x3"), reader.getDouble("y3"));
+        if (!reader.isMissing("x4") && !reader.isMissing("y4"))
+            unit.getBoundingBox().addPoint(reader.getDouble("x4"), reader.getDouble("y4"));
+        if (!reader.isMissing("x5") && !reader.isMissing("y5"))
+            unit.getBoundingBox().addPoint(reader.getDouble("x5"), reader.getDouble("y5"));
     }
 
     /**
