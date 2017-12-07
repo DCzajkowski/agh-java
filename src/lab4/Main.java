@@ -26,7 +26,7 @@ public class Main {
 
         // Write to file
         try {
-            cv.writeHTML(new PrintStream("cv.html", "UTF-8"));
+            cv.writeHTML(new PrintStream(System.getProperty("user.dir") + ("/src/lab4/out/cv.html".replace("\\/", java.nio.file.FileSystems.getDefault().getSeparator())), "UTF-8"));
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             System.out.println(e.getMessage());
         }
@@ -35,6 +35,6 @@ public class Main {
         cv.writeHTML(System.out);
 
         // Write to XML
-        cv.write("cv.xml");
+        cv.write(System.getProperty("user.dir") + ("/src/lab4/out/cv.xml".replace("\\/", java.nio.file.FileSystems.getDefault().getSeparator())));
     }
 }
