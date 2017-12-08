@@ -27,12 +27,6 @@ public class AdminUnitList {
         this.units = units;
     }
 
-    /**
-     * Reads units from a file into a buffer
-     *
-     * @param filename
-     * @throws InvalidParentException when there is no parent of given id found
-     */
     public void read(String filename) throws IOException {
         CSVReader reader = new CSVReader(filename, ",", true);
 
@@ -75,9 +69,6 @@ public class AdminUnitList {
             unit.getBoundingBox().addPoint(reader.getDouble("x5"), reader.getDouble("y5"));
     }
 
-    /**
-     * Adds children to units' objects
-     */
     protected void addChildrenToUnits() {
         this.units
             .stream()
@@ -93,11 +84,6 @@ public class AdminUnitList {
         this.parentIdToChildren.forEach((parentId, children) -> this.idToAdminUnit.get(parentId).setChildren(children));
     }
 
-    /**
-     * Adds parents to units' objects
-     *
-     * @throws InvalidParentException when there is no parent of given id found
-     */
     protected void addParentsToUnits() {
         this.adminUnitToParentId.forEach((unit, parentId) -> {
             if (this.idToAdminUnit.get(parentId) == null) throw new InvalidParentException(parentId);
@@ -106,22 +92,10 @@ public class AdminUnitList {
         });
     }
 
-    /**
-     * Prints every admin unit using AdminUnit.toString()
-     *
-     * @param out
-     */
     public void list(PrintStream out) {
         this.units.forEach(out::println);
     }
 
-    /**
-     * Prints at most limit of elements starting at offset
-     *
-     * @param out
-     * @param offset - where to start printing
-     * @param limit  - hom many elements (at most) to print
-     */
     public void list(PrintStream out, int offset, int limit) {
         if (offset > this.units.size() || offset < 0) {
             throw new InvalidOffsetException(this.units.size());
@@ -136,22 +110,10 @@ public class AdminUnitList {
             .forEach(unit -> out.println(unit.toString()));
     }
 
-    /**
-     * Appends an AdminUnit into a list
-     *
-     * @param unit
-     */
     public void add(AdminUnit unit) {
         this.units.add(unit);
     }
 
-    /**
-     * Returns a new list containing these units, which names match the pattern
-     *
-     * @param pattern
-     * @param regex   - is regular expression
-     * @return AdminUnitList containing only matching units
-     */
     public AdminUnitList selectByName(String pattern, boolean regex) {
         return new AdminUnitList(
             this.units
