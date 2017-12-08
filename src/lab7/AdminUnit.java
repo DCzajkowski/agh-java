@@ -1,5 +1,7 @@
 package lab7;
 
+import lab7.Exceptions.NoEnoughPointsException;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,6 +100,25 @@ public class AdminUnit {
         if (this.population == 0) this.population = this.area * this.density;
     }
 
+    public String getWKT() {
+        if (this.boundingBox.points.size() < 5) {
+            throw new NoEnoughPointsException(this.boundingBox.points.size());
+        }
+
+        return String.format("LINESTRING(%f %f, %f %f, %f %f, %f %f, %f %f)",
+            this.boundingBox.points.get(0).x,
+            this.boundingBox.points.get(0).y,
+            this.boundingBox.points.get(1).x,
+            this.boundingBox.points.get(1).y,
+            this.boundingBox.points.get(2).x,
+            this.boundingBox.points.get(2).y,
+            this.boundingBox.points.get(3).x,
+            this.boundingBox.points.get(3).y,
+            this.boundingBox.points.get(4).x,
+            this.boundingBox.points.get(4).y
+        );
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder(String.format("Name is %s and population is %f. Area is %f.", this.name, this.population, this.area));
@@ -108,6 +129,10 @@ public class AdminUnit {
 
         if (this.children != null && this.children.size() > 0) {
             result.append(String.format(" Its children are: %s.", String.join(", ", this.children.stream().map(AdminUnit::getName).collect(Collectors.toList()))));
+        }
+
+        if (!this.boundingBox.isEmpty()) {
+            result.append(String.format(" %s", this.boundingBox));
         }
 
         return result.toString();

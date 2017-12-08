@@ -1,18 +1,29 @@
 package lab7;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoundingBox {
+    protected class Point {
+        public double x;
+        public double y;
+
+        public Point(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     public Double xmin;
     public Double ymin;
     public Double xmax;
     public Double ymax;
 
-    /**
-     * Powiększa BB tak, aby zawierał punkt (x,y)
-     *
-     * @param x - współrzędna x
-     * @param y - współrzędna y
-     */
+    protected List<Point> points = new ArrayList<>();
+
     void addPoint(double x, double y) {
+        this.points.add(new Point(x, y));
+
         if (this.isEmpty()) {
             this.xmax = x;
             this.xmin = x;
@@ -56,5 +67,10 @@ public class BoundingBox {
 
     double distanceTo(BoundingBox boundingBox) {
         throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Bounding box most outer coordinates are: %f, %f; %f, %f.", this.xmin, this.ymin, this.xmax, this.ymax);
     }
 }
