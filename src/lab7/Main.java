@@ -1,7 +1,5 @@
 package lab7;
 
-import lab7.Exceptions.NoEnoughPointsException;
-
 import java.io.IOException;
 
 public class Main {
@@ -13,21 +11,17 @@ public class Main {
             units.read(filename);
             units.fixMissingValues();
 
-//            units.list(System.out);
-//             units.list(System.out, 0, 100);
-            AdminUnitList result = units;
-//            AdminUnitList result = units.selectByName("Kraków", false);
-            // AdminUnitList result = units.selectByName("małopolskie", false);
+            /* Listing all units */
+            // units.list(System.out);
 
-            result.units.forEach(unit -> {
-                System.out.print(unit);
-                try {
-                    System.out.println(" " + unit.getWKT());
-                } catch (NoEnoughPointsException _) {
-                    //
-                }
-            });
-//            result.list(System.out);
+            /* Listing 'limit' of units starting from the 'offset' */
+            // units.list(System.out, 0, 100);
+
+            /* Listing units containing 'Kraków' in the name */
+            // units.selectByName("Kraków", false).list(System.out);
+
+            /* Listing neighbors */
+            // units.getNeighbors(units.units.get(7341), 25).list(System.out);
         } catch (IOException e) {
             System.out.println("Failed to open a file");
         }
