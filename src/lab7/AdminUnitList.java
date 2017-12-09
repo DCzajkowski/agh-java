@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AdminUnitList {
     protected List<AdminUnit> units = new ArrayList<>();
@@ -25,6 +26,10 @@ public class AdminUnitList {
 
     private AdminUnitList(List<AdminUnit> units) {
         this.units = units;
+    }
+
+    public AdminUnitList(Stream<AdminUnit> units) {
+        this.units = units.collect(Collectors.toList());
     }
 
     public void read(String filename) throws IOException {
@@ -119,7 +124,21 @@ public class AdminUnitList {
             this.units
                 .stream()
                 .filter(unit -> (regex && unit.getName().matches(pattern)) || (!regex && unit.getName().contains(pattern)))
-                .collect(Collectors.toList())
+        );
+    }
+
+    public AdminUnitList getNeighbors(AdminUnit unit, double maxDistance) {
+        return new AdminUnitList(
+            this.units
+                .stream()
+                .filter(u -> u.getAdminLevel() == unit.getAdminLevel())
+                .filter(u -> !u.getBoundingBox().isEmpty() && CoordinatesCalculator.distanceBetween(
+                    u.getBoundingBox().getCenterX(),
+                    u.getBoundingBox().getCenterY(),
+                    unit.getBoundingBox().getCenterX(),
+                    unit.getBoundingBox().getCenterY()) <= maxDistance * 1000
+                )
+                .filter(u -> u.getId() != unit.getId())
         );
     }
 

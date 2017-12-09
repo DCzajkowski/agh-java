@@ -41,12 +41,15 @@ public class BoundingBox {
         return (!this.isEmpty() && x > this.xmin && x < this.xmax && y > this.ymin && y < this.ymax);
     }
 
-        return false;
     public boolean contains(BoundingBox boundingBox) {
+        return this.xmin < boundingBox.xmin && this.ymin < boundingBox.ymin && this.xmax > boundingBox.xmax && this.ymax > boundingBox.ymax;
     }
 
-        return false;
     public boolean intersects(BoundingBox boundingBox) {
+        return (this.xmin <= boundingBox.xmin && this.xmax >= boundingBox.xmin && this.ymin <= boundingBox.ymin && this.ymax >= boundingBox.ymin)
+            || (this.xmin <= boundingBox.xmax && this.xmax >= boundingBox.xmax && this.ymin <= boundingBox.ymin && this.ymax >= boundingBox.ymin)
+            || (this.xmin <= boundingBox.xmax && this.xmax >= boundingBox.xmax && this.ymin <= boundingBox.ymax && this.ymax >= boundingBox.ymax)
+            || (this.xmin <= boundingBox.xmin && this.xmax >= boundingBox.xmin && this.ymin <= boundingBox.ymax && this.ymax >= boundingBox.ymax);
     }
 
     public BoundingBox add(BoundingBox boundingBox) {
@@ -57,12 +60,12 @@ public class BoundingBox {
         return (this.xmin == null || this.ymin == null || this.xmax == null || this.ymax == null);
     }
 
-        return (this.xmax - this.xmin) / 2;
     public double getCenterX() {
+        return (this.xmax + this.xmin) / 2;
     }
 
-        return (this.ymax - this.ymin) / 2;
     public double getCenterY() {
+        return (this.ymax + this.ymin) / 2;
     }
 
     public double distanceTo(BoundingBox boundingBox) {
