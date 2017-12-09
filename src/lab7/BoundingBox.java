@@ -53,7 +53,7 @@ public class BoundingBox {
     }
 
     public BoundingBox add(BoundingBox boundingBox) {
-        return this;
+        throw new RuntimeException("Not implemented @todo");
     }
 
     public boolean isEmpty() {
@@ -69,7 +69,7 @@ public class BoundingBox {
     }
 
     public double distanceTo(BoundingBox boundingBox) {
-        throw new RuntimeException("Not implemented");
+        throw new RuntimeException("Not implemented @todo");
     }
 
     @Override
