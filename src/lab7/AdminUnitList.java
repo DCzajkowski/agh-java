@@ -28,7 +28,7 @@ public class AdminUnitList {
         this.units = units;
     }
 
-    public AdminUnitList(Stream<AdminUnit> units) {
+    private AdminUnitList(Stream<AdminUnit> units) {
         this.units = units.collect(Collectors.toList());
     }
 
