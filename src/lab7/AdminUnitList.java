@@ -131,13 +131,12 @@ public class AdminUnitList {
         return new AdminUnitList(
             this.units
                 .stream()
-                .filter(u -> u.getAdminLevel() == unit.getAdminLevel() && !u.getBoundingBox().isEmpty() && !unit.getBoundingBox().isEmpty() && CoordinatesCalculator.distanceBetween(
-                    u.getBoundingBox().getCenterX(),
-                    u.getBoundingBox().getCenterY(),
-                    unit.getBoundingBox().getCenterX(),
-                    unit.getBoundingBox().getCenterY()) <= maxDistance * 1000
+                .filter(u -> u.getAdminLevel() == unit.getAdminLevel()
+                    && !u.getBoundingBox().isEmpty()
+                    && !unit.getBoundingBox().isEmpty()
+                    && u.getBoundingBox().distanceTo(unit.getBoundingBox()) <= maxDistance * 1000
+                    && u.getId() != unit.getId()
                 )
-                .filter(u -> u.getId() != unit.getId())
         );
     }
 

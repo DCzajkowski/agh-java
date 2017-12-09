@@ -1,7 +1,11 @@
 package lab7;
 
+import lab7.Exceptions.EmptyBoundingBoxException;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static app.Helpers.tap;
 
 public class BoundingBox {
     protected class Point {
@@ -53,7 +57,12 @@ public class BoundingBox {
     }
 
     public BoundingBox add(BoundingBox boundingBox) {
-        throw new RuntimeException("Not implemented @todo");
+        return tap(new BoundingBox(), box -> {
+            box.xmin = Math.min(this.xmin, boundingBox.xmin);
+            box.ymin = Math.min(this.ymin, boundingBox.ymin);
+            box.xmax = Math.max(this.xmax, boundingBox.xmax);
+            box.ymax = Math.max(this.ymax, boundingBox.ymax);
+        });
     }
 
     public boolean isEmpty() {
@@ -69,7 +78,11 @@ public class BoundingBox {
     }
 
     public double distanceTo(BoundingBox boundingBox) {
-        throw new RuntimeException("Not implemented @todo");
+        if (this.isEmpty() || boundingBox.isEmpty()) {
+            throw new EmptyBoundingBoxException();
+        }
+
+        return CoordinatesCalculator.distanceBetween(this.getCenterX(), this.getCenterY(), boundingBox.getCenterX(), boundingBox.getCenterY());
     }
 
     @Override
