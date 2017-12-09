@@ -1,10 +1,10 @@
 package app;
 
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 public class Helpers {
-    public static <T> T tap(T value, Function<T, Object> callback) {
-        callback.apply(value);
+    public static <T> T tap(T value, Consumer<T> callback) {
+        callback.accept(value);
 
         return value;
     }
