@@ -131,8 +131,7 @@ public class AdminUnitList {
         return new AdminUnitList(
             this.units
                 .stream()
-                .filter(u -> u.getAdminLevel() == unit.getAdminLevel())
-                .filter(u -> !u.getBoundingBox().isEmpty() && CoordinatesCalculator.distanceBetween(
+                .filter(u -> u.getAdminLevel() == unit.getAdminLevel() && !u.getBoundingBox().isEmpty() && !unit.getBoundingBox().isEmpty() && CoordinatesCalculator.distanceBetween(
                     u.getBoundingBox().getCenterX(),
                     u.getBoundingBox().getCenterY(),
                     unit.getBoundingBox().getCenterX(),

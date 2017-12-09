@@ -20,8 +20,13 @@ public class Main {
             /* Listing units containing 'Kraków' in the name */
             // units.selectByName("Kraków", false).list(System.out);
 
-            /* Listing neighbors */
+            /* Listing neighbors of Kraków */
             // units.getNeighbors(units.units.get(7341), 25).list(System.out);
+
+            /* Getting neighbors of all units. Execution time: 94.280 seconds */
+            // for (int i = 0; i < units.units.size(); i++) {
+            //     units.getNeighbors(units.units.get(i), 25);
+            // }
         } catch (IOException e) {
             System.out.println("Failed to open a file");
         }
