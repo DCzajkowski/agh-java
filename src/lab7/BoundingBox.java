@@ -21,7 +21,7 @@ public class BoundingBox {
 
     protected List<Point> points = new ArrayList<>();
 
-    void addPoint(double x, double y) {
+    public void addPoint(double x, double y) {
         this.points.add(new Point(x, y));
 
         if (this.isEmpty()) {
@@ -37,35 +37,35 @@ public class BoundingBox {
         }
     }
 
-    boolean contains(double x, double y) {
+    public boolean contains(double x, double y) {
         return (!this.isEmpty() && x > this.xmin && x < this.xmax && y > this.ymin && y < this.ymax);
     }
 
-    boolean contains(BoundingBox boundingBox) {
         return false;
+    public boolean contains(BoundingBox boundingBox) {
     }
 
-    boolean intersects(BoundingBox boundingBox) {
         return false;
+    public boolean intersects(BoundingBox boundingBox) {
     }
 
-    BoundingBox add(BoundingBox boundingBox) {
+    public BoundingBox add(BoundingBox boundingBox) {
         return this;
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return (this.xmin == null || this.ymin == null || this.xmax == null || this.ymax == null);
     }
 
-    double getCenterX() {
         return (this.xmax - this.xmin) / 2;
+    public double getCenterX() {
     }
 
-    double getCenterY() {
         return (this.ymax - this.ymin) / 2;
+    public double getCenterY() {
     }
 
-    double distanceTo(BoundingBox boundingBox) {
+    public double distanceTo(BoundingBox boundingBox) {
         throw new RuntimeException("Not implemented");
     }
 
