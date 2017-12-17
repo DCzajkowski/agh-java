@@ -142,4 +142,57 @@ public class AdminUnitList {
     protected void fixMissingValues() {
         this.units.forEach(AdminUnit::fixMissingValues);
     }
+
+    /**
+     * As per exercises' request, sorting using a class
+     */
+    public AdminUnitList sortInPlaceByName() {
+        class AdminUnitListComparator implements Comparator<AdminUnit> {
+            @Override
+            public int compare(AdminUnit unit1, AdminUnit unit2) {
+                return unit1.getName().compareTo(unit2.getName());
+            }
+        }
+
+        return tap(this, self -> self.units.sort(new AdminUnitListComparator()));
+    }
+
+    /**
+     * As per exercises' request, sorting using an anonymous class
+     */
+    public AdminUnitList sortInPlaceByArea() {
+        return tap(this, self -> self.units.sort(new Comparator<AdminUnit>() {
+            @Override
+            public int compare(AdminUnit unit1, AdminUnit unit2) {
+                return Double.compare(unit1.getArea(), unit2.getArea());
+            }
+        }));
+    }
+
+    /**
+     * As per exercises' request, sorting using a lambda function
+     */
+    public AdminUnitList sortInPlaceByPopulation() {
+        return tap(this, self -> self.units.sort((unit1, unit2) -> Double.compare(unit1.getPopulation(), unit2.getPopulation())));
+    }
+
+    public AdminUnitList sortInPlace(Comparator<AdminUnit> comparator) {
+        return tap(this, self -> self.units.sort(comparator));
+    }
+
+    public AdminUnitList sort(Comparator<AdminUnit> comparator) {
+        return tap(new AdminUnitList(this.units.stream()), list -> list.sortInPlace(comparator));
+    }
+
+    public AdminUnitList filter(Predicate<AdminUnit> predicate) {
+        return new AdminUnitList(this.units.stream().filter(predicate));
+    }
+
+    public AdminUnitList filter(Predicate<AdminUnit> predicate, int limit) {
+        return new AdminUnitList(this.units.stream().filter(predicate).limit(limit));
+    }
+
+    public AdminUnitList filter(Predicate<AdminUnit> predicate, int offset, int limit) {
+        return new AdminUnitList(this.units.stream().filter(predicate).skip(offset).limit(limit));
+    }
 }

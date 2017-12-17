@@ -1,6 +1,7 @@
 package lab7;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,6 +28,20 @@ public class Main {
             // for (int i = 0; i < units.units.size(); i++) {
             //     units.getNeighbors(units.units.get(i), 25);
             // }
+
+            /* Sorting in place */
+            // units.sortInPlaceByName().list(System.out, 0, 100);
+            // units.sortInPlaceByArea().list(System.out, 0, 100);
+
+            /* Sorting by return */
+            // AdminUnitList unitsSorted = units.sort(Comparator.comparing(AdminUnit::getName));
+
+            // units.list(System.out, 0, 5);
+            // unitsSorted.list(System.out, 0, 5);
+
+            /* Filtering */
+            // units.filter(unit -> unit.name.startsWith("Ż")).sortByArea().list(System.out);
+            // units.filter(unit -> unit.name.startsWith("A"), 2, 5).list(System.out);
         } catch (IOException e) {
             System.out.println("Failed to open a file");
         }
