@@ -23,11 +23,11 @@ public class AdminUnitList {
         //
     }
 
-    private AdminUnitList(List<AdminUnit> units) {
+    protected AdminUnitList(List<AdminUnit> units) {
         this.units = units;
     }
 
-    private AdminUnitList(Stream<AdminUnit> units) {
+    protected AdminUnitList(Stream<AdminUnit> units) {
         this.units = units.collect(Collectors.toList());
     }
 
