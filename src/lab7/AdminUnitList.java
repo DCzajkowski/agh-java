@@ -1,23 +1,22 @@
 package lab7;
 
-import app.Helpers;
 import lab6.CSVReader.CSVReader;
 import lab7.Exceptions.InvalidOffsetException;
 import lab7.Exceptions.InvalidParentException;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static app.Helpers.tap;
+
 public class AdminUnitList {
     protected List<AdminUnit> units = new ArrayList<>();
-    protected HashMap<Long, AdminUnit> idToAdminUnit = new HashMap<>();
-    protected HashMap<AdminUnit, Long> adminUnitToParentId = new HashMap<>();
+    protected Map<Long, AdminUnit> idToAdminUnit = new HashMap<>();
+    protected Map<AdminUnit, Long> adminUnitToParentId = new HashMap<>();
     protected Map<Long, List<AdminUnit>> parentIdToChildren = new HashMap<>();
 
     public AdminUnitList() {
@@ -82,7 +81,7 @@ public class AdminUnitList {
                 if (this.parentIdToChildren.get(unit.parent.getId()) != null) {
                     this.parentIdToChildren.get(unit.parent.getId()).add(unit);
                 } else {
-                    this.parentIdToChildren.put(unit.parent.getId(), Helpers.tap(new ArrayList<>(), list -> list.add(unit)));
+                    this.parentIdToChildren.put(unit.parent.getId(), tap(new ArrayList<>(), list -> list.add(unit)));
                 }
             });
 
