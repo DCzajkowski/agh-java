@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<document>
+    <title>Jan Kowalski - CV</title>
+    <photo url="https://www.1plusx.com/app/mu-plugins/all-in-one-seo-pack-pro/images/default-user-image.png"/>
+    <section title="Wykształcenie">
+        <paragraph>2000-2005 Przedszkole im. Królewny Śnieżki w ...</paragraph>
+        <paragraph>2006-2012 SP7 im Ronalda Reagana w ...</paragraph>
+        <paragraph>...</paragraph>
+    </section>
+    <section title="Umiejętności">
+        <paragraph-with-list>Umiejętności
+            <unordered-list>
+                <item>C</item>
+                <item>C++</item>
+                <item>Java</item>
+            </unordered-list>
+        </paragraph-with-list>
+    </section>
+</document>
