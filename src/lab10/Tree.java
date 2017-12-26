@@ -1,8 +1,8 @@
 package lab10;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
 
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_MITER;

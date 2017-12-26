@@ -1,7 +1,6 @@
 package lab10;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 public class Light extends BaseXmasShape {
     public Light(int x, int y, double scale) {

@@ -1,7 +1,6 @@
 package lab10;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +12,38 @@ import static java.lang.Math.sqrt;
 public class DrawPanel extends JPanel {
     public List<XmasShape> shapes = new ArrayList<>();
 
+    private int[] randomPointOutsideTree() {
+        int section = new Random().nextInt(4);
+        int x;
+        int y;
+
+        if (section == 0) {
+            x = new Random().nextInt(Main.width);
+            y = new Random().nextInt(140);
+        } else if (section == 1) {
+            x = new Random().nextInt(350);
+            y = new Random().nextInt(Main.height - 140) + 140;
+        } else if (section == 2) {
+            x = new Random().nextInt(Main.width - 350) + 350;
+            y = new Random().nextInt(Main.height - 560) + 560;
+        } else {
+            x = new Random().nextInt(Main.width - 650) + 650;
+            y = new Random().nextInt(420) + 140;
+        }
+
+        return new int[]{x, y};
+    }
+
     public DrawPanel() {
         setBackground(new Color(191, 16, 0));
 
+        this.generateTree();
+        this.addStars();
+        this.addLights();
+        this.addBubbles();
+    }
+
+    protected void generateTree() {
         Tree tree = new Tree(Main.width / 2, Main.height - 100, 1, 400);
 
         for (double i = 1; i < 41; i += 2) {
@@ -24,16 +52,10 @@ public class DrawPanel extends JPanel {
         }
 
         this.shapes.add(tree);
+    }
 
-        for (int i = 0; i < 100; i++) {
-            this.shapes.add(new Star(new Random().nextInt(Main.width), new Random().nextInt(Main.height), .1));
-        }
-
-        for (int i = 0; i < 100; i++) {
-            this.shapes.add(new Light(new Random().nextInt(Main.width), new Random().nextInt(Main.height), .08));
-        }
-
-        for (int i = 0; i < 100; i++) {
+    protected void addBubbles() {
+        for (int i = 0; i < 70; i++) {
             double r1 = new Random().nextDouble();
             double r2 = new Random().nextDouble();
 
@@ -45,6 +67,20 @@ public class DrawPanel extends JPanel {
                 bubble.lineColor = new Color(new Random().nextInt(255), new Random().nextInt(255), new Random().nextInt(255));
                 bubble.fillColor = new Color(new Random().nextInt(255), new Random().nextInt(255), new Random().nextInt(255));
             }));
+        }
+    }
+
+    protected void addLights() {
+        for (int i = 0; i < 140; i++) {
+            int[] point = randomPointOutsideTree();
+            this.shapes.add(new Light(point[0], point[1], .08));
+        }
+    }
+
+    protected void addStars() {
+        for (int i = 0; i < 140; i++) {
+            int[] point = randomPointOutsideTree();
+            this.shapes.add(new Star(point[0], point[1], .1));
         }
     }
 
