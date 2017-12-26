@@ -1,6 +1,6 @@
 agh-java.iml
 .idea/
-out/
+out/*
 lib/
 cv.html
 cv.xml
