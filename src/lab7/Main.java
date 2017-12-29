@@ -44,14 +44,14 @@ public class Main {
             // units.filter(unit -> unit.name.startsWith("A"), 2, 5).list(System.out);
 
             /* Query */
-            new AdminUnitQuery()
-                .selectFrom(units)
-                .where(a -> a.area > 1000)
-                .or(a -> a.name.startsWith("Sz"))
-                .sort(Comparator.comparingDouble(a -> a.area))
-                .limit(100)
-                .execute()
-                .list(System.out);
+            // new AdminUnitQuery()
+            //     .selectFrom(units)
+            //     .where(a -> a.area > 1000)
+            //     .or(a -> a.name.startsWith("Sz"))
+            //     .sort(Comparator.comparingDouble(a -> a.area))
+            //     .limit(100)
+            //     .execute()
+            //     .list(System.out);
         } catch (IOException e) {
             System.out.println("Failed to open a file");
         }
