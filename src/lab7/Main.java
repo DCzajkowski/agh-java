@@ -21,8 +21,11 @@ public class Main {
             /* Listing units containing 'Kraków' in the name */
             // units.selectByName("Kraków", false).list(System.out);
 
-            /* Listing neighbors of Kraków */
-            // units.getNeighbors(units.units.get(7341), 25).list(System.out);
+            /* Listing neighbors of gmina Zielonki (not a city) */
+            // units.getNeighbors(units.units.get(54), 0).list(System.out); // distance is ignored for non-cities
+
+            /* Listing neighbors of Smardzowice (city) */
+            // units.getNeighbors(units.units.get(15212), 10).list(System.out);
 
             /* Getting neighbors of all units. Execution time: 94.280 seconds */
             // for (int i = 0; i < units.units.size(); i++) {

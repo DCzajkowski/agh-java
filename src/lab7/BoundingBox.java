@@ -36,24 +36,28 @@ public class BoundingBox {
         } else {
             if (x > this.xmax) this.xmax = x;
             if (x < this.xmin) this.xmin = x;
-            if (y > this.ymax) this.ymax = x;
-            if (y < this.ymin) this.ymin = x;
+            if (y > this.ymax) this.ymax = y;
+            if (y < this.ymin) this.ymin = y;
         }
     }
 
     public boolean contains(double x, double y) {
-        return (!this.isEmpty() && x > this.xmin && x < this.xmax && y > this.ymin && y < this.ymax);
+        return (!this.isEmpty() && x >= this.xmin && x <= this.xmax && y >= this.ymin && y <= this.ymax);
     }
 
     public boolean contains(BoundingBox boundingBox) {
-        return this.xmin < boundingBox.xmin && this.ymin < boundingBox.ymin && this.xmax > boundingBox.xmax && this.ymax > boundingBox.ymax;
+        return this.xmin <= boundingBox.xmin && this.ymin <= boundingBox.ymin && this.xmax >= boundingBox.xmax && this.ymax >= boundingBox.ymax;
     }
 
     public boolean intersects(BoundingBox boundingBox) {
-        return (this.xmin <= boundingBox.xmin && this.xmax >= boundingBox.xmin && this.ymin <= boundingBox.ymin && this.ymax >= boundingBox.ymin)
-            || (this.xmin <= boundingBox.xmax && this.xmax >= boundingBox.xmax && this.ymin <= boundingBox.ymin && this.ymax >= boundingBox.ymin)
-            || (this.xmin <= boundingBox.xmax && this.xmax >= boundingBox.xmax && this.ymin <= boundingBox.ymax && this.ymax >= boundingBox.ymax)
-            || (this.xmin <= boundingBox.xmin && this.xmax >= boundingBox.xmin && this.ymin <= boundingBox.ymax && this.ymax >= boundingBox.ymax);
+        return this.contains(boundingBox.xmax, boundingBox.ymax)
+            || this.contains(boundingBox.xmin, boundingBox.ymax)
+            || this.contains(boundingBox.xmax, boundingBox.ymin)
+            || this.contains(boundingBox.xmin, boundingBox.ymin)
+            || boundingBox.contains(this.xmax, this.ymax)
+            || boundingBox.contains(this.xmin, this.ymax)
+            || boundingBox.contains(this.xmax, this.ymin)
+            || boundingBox.contains(this.xmin, this.ymin);
     }
 
     public BoundingBox add(BoundingBox boundingBox) {
