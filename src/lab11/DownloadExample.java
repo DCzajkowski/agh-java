@@ -1,9 +1,11 @@
 package lab11;
 
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DownloadExample {
-    private static AtomicInteger count;
+    private static AtomicInteger count = new AtomicInteger();
+    private static Semaphore semaphore = new Semaphore(0);
     private static String[] toDownload = {
         "http://home.agh.edu.pl/pszwed/wyklad-c/01-jezyk-c-intro.pdf",
         "http://home.agh.edu.pl/~pszwed/wyklad-c/02-jezyk-c-podstawy-skladni.pdf",
@@ -20,11 +22,12 @@ public class DownloadExample {
     };
 
     public static void main(String[] args) {
-        System.out.println("Starting your download");
+        System.out.println("Starting your download...");
 
         // DownloadExample.sequentialDownload();
         // DownloadExample.concurrentDownload();
-        DownloadExample.concurrentDownload2();
+        // DownloadExample.concurrentDownload2();
+        // DownloadExample.concurrentDownload3();
     }
 
     private static void sequentialDownload() {
@@ -58,16 +61,35 @@ public class DownloadExample {
             new Downloader(url).start();
         }
 
-        double t2 = System.nanoTime() / 1e6;
-
         while (DownloadExample.count.get() != DownloadExample.toDownload.length) {
             Thread.yield();
         }
+
+        double t2 = System.nanoTime() / 1e6;
+
+        System.out.printf("t2 - t1 = %f\n", t2 - t1);
+    }
+
+    private static void concurrentDownload3() {
+        double t1 = System.nanoTime() / 1e6;
+
+        for (String url : DownloadExample.toDownload) {
+            new Downloader(url).start();
+        }
+
+        try {
+            DownloadExample.semaphore.acquire(DownloadExample.toDownload.length);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        double t2 = System.nanoTime() / 1e6;
 
         System.out.printf("t2 - t1 = %f\n", t2 - t1);
     }
 
     public static void incrementCounter() {
-        DownloadExample.count.addAndGet(1);
+        DownloadExample.semaphore.release();
+        if (DownloadExample.count != null) DownloadExample.count.addAndGet(1);
     }
 }
