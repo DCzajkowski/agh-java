@@ -79,13 +79,13 @@ public class DownloadExample {
 
         try {
             DownloadExample.semaphore.acquire(DownloadExample.toDownload.length);
+
+            double t2 = System.nanoTime() / 1e6;
+
+            System.out.printf("t2 - t1 = %f\n", t2 - t1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        double t2 = System.nanoTime() / 1e6;
-
-        System.out.printf("t2 - t1 = %f\n", t2 - t1);
     }
 
     public static void incrementCounter() {
