@@ -1,6 +1,9 @@
 package lab11;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class DownloadExample {
+    private static AtomicInteger count;
     private static String[] toDownload = {
         "http://home.agh.edu.pl/pszwed/wyklad-c/01-jezyk-c-intro.pdf",
         "http://home.agh.edu.pl/~pszwed/wyklad-c/02-jezyk-c-podstawy-skladni.pdf",
@@ -17,13 +20,17 @@ public class DownloadExample {
     };
 
     public static void main(String[] args) {
-        DownloadExample.concurrentDownload();
+        System.out.println("Starting your download");
+
+        // DownloadExample.sequentialDownload();
+        // DownloadExample.concurrentDownload();
+        DownloadExample.concurrentDownload2();
     }
 
     private static void sequentialDownload() {
         double t1 = System.nanoTime() / 1e6;
 
-        for (String url : toDownload) {
+        for (String url : DownloadExample.toDownload) {
             new Downloader(url).run();
         }
 
@@ -35,12 +42,32 @@ public class DownloadExample {
     private static void concurrentDownload() {
         double t1 = System.nanoTime() / 1e6;
 
-        for (String url : toDownload) {
+        for (String url : DownloadExample.toDownload) {
             new Downloader(url).start();
         }
 
         double t2 = System.nanoTime() / 1e6;
 
         System.out.printf("t2 - t1 = %f\n", t2 - t1); // Given time is of course incorrect, because this line runs before threads end.
+    }
+
+    private static void concurrentDownload2() {
+        double t1 = System.nanoTime() / 1e6;
+
+        for (String url : DownloadExample.toDownload) {
+            new Downloader(url).start();
+        }
+
+        double t2 = System.nanoTime() / 1e6;
+
+        while (DownloadExample.count.get() != DownloadExample.toDownload.length) {
+            Thread.yield();
+        }
+
+        System.out.printf("t2 - t1 = %f\n", t2 - t1);
+    }
+
+    public static void incrementCounter() {
+        DownloadExample.count.addAndGet(1);
     }
 }

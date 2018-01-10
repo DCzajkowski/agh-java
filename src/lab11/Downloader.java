@@ -37,5 +37,6 @@ public class Downloader extends Thread implements Runnable {
         }
 
         System.out.println("Done: " + filename);
+        DownloadExample.incrementCounter();
     }
 }
