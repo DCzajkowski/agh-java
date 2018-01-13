@@ -1,14 +1,16 @@
 package lab12;
 
 import java.util.Arrays;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /*
     Results:
-    Given test shows, that making all of this code is pretty inefficient, because the results
-    are at least 3 times slower than the built-in .sum() method and simple division.
-
-    All of this extra code, thread manipulation etc. could be just simply changed to the following one-liner:
+    Given test shows, that dividing mean calculation for large amount of elements is faster than the built-in
+    .sum() method. But, although your program could be even up to 12 times, it would be running still for milliseconds.
+    If you don't care for your program to be 300 milliseconds slower, then opt for the following one-liner:
         double builtInMean = Arrays.stream(Mean.array).sum() / Mean.array.length;
+    It is slower, but cleaner, clearer, easier to understand and faster to type. Also, it's easily maintainable.
 */
 
 public class Mean {
@@ -30,18 +32,43 @@ public class Mean {
 
             this.mean /= this.end - this.start;
 
-            System.out.printf("%d - %d mean = %f\n", this.start, this.end, this.mean);
+            try {
+                Mean.results.put(this.mean);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // System.out.printf("%d - %d mean = %f\n", this.start, this.end, this.mean);
         }
     }
 
     static double[] array;
+    static BlockingQueue<Double> results = new ArrayBlockingQueue<>(100);
 
     public static void main(String[] args) throws InterruptedException {
-        Mean.initArray(10000000);
-        Mean.parallelMean(100);
+        Mean.initArray(50000000);
+
+        for (int threadCount : new int[]{1, 2, 4, 8, 16, 32, 64, 128}) {
+            Mean.parallelMean(threadCount);
+        }
+
+        Mean.builtInMean();
     }
 
-    static void initArray(int size) {
+    private static void builtInMean() {
+        double t1 = System.nanoTime() / 1e6;
+
+        double builtInMean = Arrays.stream(Mean.array).sum() / Mean.array.length;
+
+        double t2 = System.nanoTime() / 1e6;
+
+        System.out.printf(
+            "built-in -> %f\t\tmean = %f\n",
+            t2 - t1, builtInMean
+        );
+    }
+
+    private static void initArray(int size) {
         Mean.array = new double[size];
 
         for (int i = 0; i < size; i++) {
@@ -49,7 +76,7 @@ public class Mean {
         }
     }
 
-    static void parallelMean(int threadCount) throws InterruptedException {
+    private static void parallelMean(int threadCount) throws InterruptedException {
         MeanCalc[] threads = new MeanCalc[threadCount];
 
         for (int i = 0; i < threadCount; i++) {
@@ -62,26 +89,24 @@ public class Mean {
 
         double t2 = System.nanoTime() / 1e6;
 
-        for (MeanCalc thread : threads) {
-            thread.join();
+        double mean = 0;
+
+        for (int i = 0; i < threadCount; i++) {
+            mean += Mean.results.take();
         }
 
-        double mean = Arrays.stream(threads).mapToDouble(thread -> thread.mean).sum() / threadCount;
+        mean /= threadCount;
 
         double t3 = System.nanoTime() / 1e6;
 
-        double builtInMean = Arrays.stream(Mean.array).sum() / Mean.array.length;
+        // System.out.printf(
+        //     "size = %d\nthreadCount = %d\nt2 - t1 = %f\nt3 - t1 = %f\nmean = %f\n",
+        //     Mean.array.length, threadCount, t2 - t1, t3 - t1, mean
+        // );
 
-        double t4 = System.nanoTime() / 1e6;
-
-        System.out.printf("size = %d\nthreadCount = %d\nt2 - t1 = %f\nt3 - t1 = %f\nmean = %f\nreal mean: %f\nbuilt-in mean time: %f\n",
-            Mean.array.length,
-            threadCount,
-            t2 - t1,
-            t3 - t1,
-            mean,
-            builtInMean,
-            t4 - t3
+        System.out.printf(
+            "%d -> %f\t\tmean = %f\n",
+            threadCount, t3 - t1, mean
         );
     }
 }
