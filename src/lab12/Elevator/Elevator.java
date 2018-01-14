@@ -6,12 +6,30 @@ public class Elevator {
     public static void main(String[] args) throws InterruptedException {
         Elevator.init();
 
-        Elevator.makeExternalCall(4, true);
+        Elevator.makeInternalCall(4);
+        Elevator.makeInternalCall(2);
+        Elevator.makeInternalCall(6);
 
         currentThread();
         Thread.sleep(5000);
 
-        Elevator.makeInternalCall(2);
+        Elevator.makeExternalCall(8, false);
+
+        currentThread();
+        Thread.sleep(1000);
+
+        Elevator.makeInternalCall(0);
+
+        currentThread();
+        Thread.sleep(1000);
+
+        Elevator.makeExternalCall(9, false);
+        Elevator.makeExternalCall(2, false);
+
+        currentThread();
+        Thread.sleep(10000);
+
+        Elevator.makeInternalCall(0);
     }
 
     // Creating three threads
