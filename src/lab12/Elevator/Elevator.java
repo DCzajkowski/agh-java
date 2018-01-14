@@ -6,10 +6,10 @@ public class Elevator {
     public static void main(String[] args) throws InterruptedException {
         Elevator.init();
 
-        Elevator.makeExternalCall(4, false);
+        Elevator.makeExternalCall(4, true);
 
         currentThread();
-        Thread.sleep(100);
+        Thread.sleep(5000);
 
         Elevator.makeInternalCall(2);
     }

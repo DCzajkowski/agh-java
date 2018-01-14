@@ -23,24 +23,22 @@ public class ExternalPanelsAgent extends Thread {
 
     public void run() {
         while (true) {
-            ExternalCall ec = null;
+            ExternalCall externalCall = null;
 
             try {
-                ec = this.input.take();
+                externalCall = this.input.take();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            if (ec == null) return;
+            if (externalCall == null) return;
 
-            // ignorujemy wezwanie na piętro, na którym winda się znajduje
-            if (ec.atFloor == this.elevatorCar.getFloor()) continue;
+            if (externalCall.atFloor == this.elevatorCar.getFloor()) continue;
 
-            // dodajemy do jednej z tablic zgłoszeń
-            if (ec.directionUp) {
-                ElevatorStops.get().setLiftStopUp(ec.atFloor);
+            if (externalCall.directionUp) {
+                ElevatorStops.get().setLiftStopUp(externalCall.atFloor);
             } else {
-                ElevatorStops.get().setLiftStopDown(ec.atFloor);
+                ElevatorStops.get().setLiftStopDown(externalCall.atFloor);
             }
         }
     }

@@ -9,7 +9,7 @@ public class ElevatorStops {
     protected boolean stopsUp[] = new boolean[FLOORS];
 
     private ElevatorStops() {
-        //
+        // This is a private constructor so that no-one can instantiate this class. It's a singleton
     }
 
     protected void setLiftStopUp(int floor) {
