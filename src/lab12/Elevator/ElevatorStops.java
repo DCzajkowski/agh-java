@@ -29,7 +29,7 @@ public class ElevatorStops {
     }
 
     protected boolean hasStopAbove(int floor) {
-        for (int i = floor + 1; i < ElevatorStops.MAX_FLOOR; i++) {
+        for (int i = floor + 1; i <= ElevatorStops.MAX_FLOOR; i++) {
             if (this.stopsUp[i] || this.stopsDown[i]) {
                 return true;
             }
@@ -49,7 +49,7 @@ public class ElevatorStops {
     }
 
     protected int getMaxSetFloor() {
-        for (int i = ElevatorStops.MAX_FLOOR - 1; i >= 0; i--) {
+        for (int i = ElevatorStops.MAX_FLOOR; i >= 0; i--) {
             if (this.stopsUp[i] || this.stopsDown[i]) {
                 return i;
             }
