@@ -33,21 +33,13 @@ public class ElevatorCar extends Thread {
                 } else {
                     this.movementState = Movement.MOVING;
                 }
-
-                continue;
-            }
-
-            if (this.movementState == Movement.STOP && this.tour == Tour.UP) {
+            } else if (this.movementState == Movement.STOP && this.tour == Tour.UP) {
                 if (!ElevatorStops.get().hasStopAbove(this.floor)) {
                     this.tour = Tour.DOWN;
                 } else {
                     this.movementState = Movement.MOVING;
                 }
-
-                continue;
-            }
-
-            if (this.movementState == Movement.MOVING && this.tour == Tour.DOWN) {
+            } else if (this.movementState == Movement.MOVING && this.tour == Tour.DOWN) {
                 if (this.floor > ElevatorStops.get().getMinSetFloor()) {
                     this.floor--;
                     System.out.println("Floor" + this.floor);
@@ -64,11 +56,7 @@ public class ElevatorCar extends Thread {
                     ElevatorStops.get().clearStopDown(this.floor);
                     System.out.println("STOP");
                 }
-
-                continue;
-            }
-
-            if (this.movementState == Movement.MOVING && this.tour == Tour.UP) {
+            } else if (this.movementState == Movement.MOVING && this.tour == Tour.UP) {
                 if (this.floor < ElevatorStops.get().getMaxSetFloor()) {
                     this.floor++;
                     System.out.println("Floor" + this.floor);
