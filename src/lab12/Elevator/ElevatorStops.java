@@ -77,10 +77,6 @@ public class ElevatorStops {
     }
 
     protected static ElevatorStops get() {
-        if (ElevatorStops.instance == null) {
-            ElevatorStops.instance = new ElevatorStops();
-        }
-
-        return ElevatorStops.instance;
+        return (ElevatorStops.instance == null) ? ElevatorStops.instance = new ElevatorStops() : ElevatorStops.instance;
     }
 }
