@@ -4,15 +4,6 @@ import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-/*
-    Results:
-    Given test shows, that dividing mean calculation for large amount of elements is faster than the built-in
-    .sum() method. But, although your program could be even up to 12 times, it would be running still for milliseconds.
-    If you don't care for your program to be 300 milliseconds slower, then opt for the following one-liner:
-        double builtInMean = Arrays.stream(Mean.array).sum() / Mean.array.length;
-    It is slower, but cleaner, clearer, easier to understand and faster to type. Also, it's easily maintainable.
-*/
-
 public class Mean {
     static class MeanCalc extends Thread {
         private final int start;
