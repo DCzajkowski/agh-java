@@ -1,35 +1,62 @@
 package lab12.Elevator;
 
-import static java.lang.Thread.currentThread;
+import static java.lang.Thread.sleep;
 
 public class Elevator {
     public static void main(String[] args) throws InterruptedException {
         Elevator.init();
 
+        Elevator.scenario1();
+        // Elevator.scenario2();
+        // Elevator.scenario3();
+    }
+
+    /**
+     * Verifies going up and down, stopping on floors when going down, coming back when going down and above floor is selected
+     */
+    private static void scenario1() throws InterruptedException {
         Elevator.makeInternalCall(4);
         Elevator.makeInternalCall(2);
         Elevator.makeInternalCall(6);
 
-        currentThread();
-        Thread.sleep(5000);
+        sleep(5000);
 
         Elevator.makeExternalCall(8, false);
 
-        currentThread();
-        Thread.sleep(1000);
+        sleep(1000);
 
         Elevator.makeInternalCall(0);
 
-        currentThread();
-        Thread.sleep(1000);
+        sleep(1000);
 
         Elevator.makeExternalCall(9, false);
         Elevator.makeExternalCall(2, false);
 
-        currentThread();
-        Thread.sleep(10000);
+        sleep(10000);
 
         Elevator.makeInternalCall(0);
+    }
+
+    /**
+     * Verifies the elevator stops on floors (wanting to go up) when going up
+     */
+    private static void scenario2() throws InterruptedException {
+        Elevator.makeInternalCall(9);
+
+        sleep(1000);
+
+        Elevator.makeExternalCall(5, true);
+    }
+
+    /**
+     * Verifies elevator comes back to the floor chosen internally below, when going up
+     */
+    private static void scenario3() throws InterruptedException {
+        Elevator.makeInternalCall(9);
+
+        sleep(3000);
+
+        Elevator.makeInternalCall(1);
     }
 
     // Creating three threads
