@@ -15,8 +15,13 @@ public class Main {
             e.printStackTrace();
         }
 
+        // Mapped year of publishing to the amount of books with that date
         System.out.println(list.getYearToAmountMap());
+
+        // List of books (titles) of books published by Wydawnictwo Naukowe PWN
         System.out.println(list.getAllByPublisher("Wydawnictwo Naukowe PWN").stream().map(book -> book.title).collect(Collectors.toList()));
+
+        // Mapped category to the amount of books belonging to that category
         System.out.println(list.getCategoryToAmountMap());
     }
 }
