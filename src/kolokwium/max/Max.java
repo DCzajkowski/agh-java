@@ -50,7 +50,7 @@ public class Max {
             Max.parallelMax(threadCount);
         }
 
-        // System.out.printf("Checksum: %d\n", stream(Max.array).max().orElse(0));
+        System.out.printf("Checksum: %d\n", stream(Max.array).max().orElse(0));
     }
 
     private static void parallelMax(int threadCount) throws InterruptedException {
