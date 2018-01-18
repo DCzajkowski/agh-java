@@ -19,7 +19,7 @@ public class BooksList {
 
         while (reader.next()) {
             this.books.add(tap(new Book(), book -> {
-                // book.id = reader.get("Ibuk ID");
+                book.id = reader.get("Ibuk ID");
                 book.title = reader.get("Tytuł");
                 book.author = reader.get("Autor");
                 book.isbn = reader.get("ISBN");
@@ -27,7 +27,7 @@ public class BooksList {
                 book.year = reader.get("Rok wydania");
                 book.category = reader.get("Kategoria");
                 book.subcategory = reader.get("Podkategoria");
-                // book.link = reader.get("Link do książki");
+                book.link = reader.get("Link do książki");
             }));
         }
     }
