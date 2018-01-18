@@ -1,11 +1,5 @@
 package kolokwium.books;
 
-// W pliku ibuk_wykaz_pozycji.csv znajduje się znaleziony w sieci spis książek jakiejś biblioteki.
-// a) Wczytaj dane z pliku do pamięci
-// b) Podaj ile książek wydano w kolejnych latach (policz książki z kolejnych lat i wypisz)
-// c) Wypisz wszystkie książki wydane przez Wydawnictwo Naukowe PWN
-// d) Podaj ile książek należy do każdej z kategorii
-
 import java.io.IOException;
 import java.util.stream.Collectors;
 

@@ -1,12 +1,5 @@
 package kolokwium.max;
 
-// Następnie wyznacza największy element tablicy dzieląc
-// wyszukiwanie pomiędzy pewną liczbę wątków. Do agregacji wyników użyj kolejki.
-// Wyświetl czasy działania. Do generacji liczb użyj
-
-import lab12.Mean;
-
-import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
