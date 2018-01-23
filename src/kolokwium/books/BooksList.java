@@ -33,13 +33,7 @@ public class BooksList {
     }
 
     public Map<String, Integer> getYearToAmountMap() {
-        return tap(new HashMap<>(), result -> this.books.forEach(book -> {
-            if (result.containsKey(book.year)) {
-                result.replace(book.year, result.get(book.year) + 1);
-            } else {
-                result.put(book.year, 1);
-            }
-        }));
+        return tap(new HashMap<>(), result -> this.books.stream().map(book -> book.year).forEach(year -> result.put(year, (result.get(year) != null) ? result.get(year) + 1 : 1)));
     }
 
     public List<Book> getAllByPublisher(String publisher) {
@@ -47,12 +41,6 @@ public class BooksList {
     }
 
     public Map<String, Integer> getCategoryToAmountMap() {
-        return tap(new HashMap<>(), result -> this.books.forEach(book -> {
-            if (result.containsKey(book.category)) {
-                result.replace(book.category, result.get(book.category) + 1);
-            } else {
-                result.put(book.category, 1);
-            }
-        }));
+        return tap(new HashMap<>(), result -> this.books.stream().map(book -> book.category).forEach(category -> result.put(category, (result.get(category) != null) ? result.get(category) + 1 : 1)));
     }
 }
